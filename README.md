@@ -1,9 +1,10 @@
 # 📷 PHOTO-REAL VIRTUALITY · 纯光学相机实拍与活人感摄影典藏
-> 纯光学单反相机实拍 · 真实人类活人感重塑游戏经典世界：《艾尔登法环》·《赛博朋克 2077》·《塞尔达传说：旷野之息》
+> 纯光学单反相机实拍 · 真实人类活人感重塑三大经典游戏世界：《艾尔登法环》(25幅) · 《赛博朋克 2077》(21幅) · 《塞尔达传说：旷野之息》(21幅) · 全站共 67 幅超清纯光学实拍
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Online_Demo-gold?style=flat&logo=github)](https://holynova.github.io/elden-ring-liveaction/)
 [![Emil Kowalski Prototype](https://img.shields.io/badge/Craft-Emil_Kowalski_Prototype_Philosophy-black)](https://github.com/emilkowalski/skills)
-[![Games Included](https://img.shields.io/badge/Universe-Elden_Ring_|_Cyberpunk_2077_|_Zelda_BotW-cyan)](#)
+[![Total Gallery](https://img.shields.io/badge/Gallery_Size-67_Plates_Total-brightgreen)](#)
+[![Games Included](https://img.shields.io/badge/Universe-Elden_Ring_(25)_|_Cyberpunk_2077_(21)_|_Zelda_BotW_(21)-cyan)](#)
 
 ---
 
@@ -13,15 +14,15 @@
 
 ### 🎮 游戏世界选择器 (Game Universe Selector)
 在顶部导航栏可一键无缝穿梭于三大经典游戏宇宙（支持 URL 参数记忆与快捷键 `G` 一键轮转）：
-- ⚔️ **艾尔登法环 (ELDEN RING)** — 25 幅交界地纯光学纪实（女武神、大树守卫、菈妮、火山官邸、王城罗德尔、梅琳娜、鲜血君王、葛孚雷等全阵容）。
-- 🦾 **赛博朋克 2077 (CYBERPUNK 2077)** — 4 幅夜之城与恶土抓拍（朱迪·阿尔瓦雷斯、强尼·银手、帕南·帕尔默、雨夜歌舞伎町 V）。
-- 🗡️ **塞尔达传说：旷野之息 (THE LEGEND OF ZELDA: BOTW)** — 4 幅海拉鲁生息摄影（塞尔达公主、英杰林克、女武神乌尔波扎、初始台地断崖远眺）。
+- ⚔️ **艾尔登法环 (ELDEN RING)** — **25 幅**交界地纯光学纪实（女武神玛莲妮亚、大树守卫、月之公主菈妮、火山官邸塔妮丝、王城罗德尔、梅琳娜、白面具梵雷、煮虾哥、战士壶亚历山大、半狼布莱泽、菲雅、海妲、金面具、罗杰尔、白狼巴格莱姆、葛孚雷、恶兆王蒙葛特、鲜血君王蒙格、接肢葛瑞克、穿刺者梅瑟莫、罗蕾塔、史东薇尔悬崖、雷亚卢卡利亚水上墓地、希芙拉河地下星空、法姆·亚兹拉崩解风暴）。
+- 🦾 **赛博朋克 2077 (CYBERPUNK 2077)** — **21 幅**夜之城与恶土纪实抓拍（朱迪·阿尔瓦雷斯、强尼·银手、帕南·帕尔默、雨夜歌舞伎町 V、杰克·韦尔斯、瑞弗·沃德、克里·欧罗克林、罗格·亚曼迪亚斯、竹村五郎、亚当·重锤、密斯蒂·奥舍夫斯基、维克托·维克托、德拉曼豪华出租车内景、恶土阿德卡多流浪者营火、太平洲废墟海滩、荒坂赖宣、丽姿酒吧莫克斯打手、超级摩天楼 H10 公寓、云顶生化玩偶前台、小唐人街夜市面摊、夜之城夕阳全景天际线）。
+- 🗡️ **塞尔达传说：旷野之息 (THE LEGEND OF ZELDA: BOTW)** — **21 幅**海拉鲁生息摄影（塞尔达公主、英杰林克、格鲁德英杰乌尔波扎、初始台地断崖远眺、卓拉英杰米法、利特英杰力巴尔、鼓隆英杰达尔克尔、希卡侍女帕雅、古代研究所学者普尔亚、吟游诗人卡西瓦、行商人特里、卓拉王子希多、克洛格森林与伯库诺、长满野花的古代守护者残骸、哈特诺村清晨风车与梯田、阿卡莱要塞红枫废墟、卡拉卡拉集市绿洲、利特村螺旋岩柱夜灯、雷鸣平原暴风雨与避雷旅人、拉聂尔雪山之巅与冰霜巨龙聂尔龙、沃托里村热带海湾与渔民）。
 
 ### 🕹️ 三维交互原型 (Emil Kowalski Design Engineering)
 底部常驻原型浮动切换器，支持 `1` / `2` / `3`、左右方向键、`R` 键重放：
 - **Variant 1: Editorial (典藏画册)** — 典雅美术馆展览体验，大幅图版、版画编号、镜头参数、摄影笔记与人物语录。
 - **Variant 2: Filmstrip (35mm胶片)** — 电影暗房放映机体验，胶卷齿孔、EXP编号、横向无尽轮播与胶片快门感。
-- **Variant 3: Archive (密室档案)** — 密集工作台档案，支持分类筛选、鼠标悬浮左右滑动的 **Before / After (原画 vs 纯相机实拍)** 对比滑块与光学放大镜。
+- **Variant 3: Archive (密室档案)** — 密集工作台档案，支持分类筛选、鼠标悬浮左右滑动的 **Before / After (原画 vs 纯相机实拍)** 对比滑块与高精度光学放大镜。
 
 ---
 
@@ -38,7 +39,7 @@
     *   肖像特写：`用佳能 EOS R5 搭配 85mm f/1.4 L 定焦镜头实拍` 或 `哈苏中画幅 80mm f/2.2 室内弱光人像`。
     *   纪实动作：`索尼 A7R5 搭配 70-200mm f/2.8 GM 高速快门抓拍`。
     *   环境远眺：`徕卡 M11 搭配 35mm f/1.4 Summilux 街头抓拍` 或 `24-70mm f/2.8 广角自然风光摄影`。
-*   **激活光学物理瑕疵**：大光圈浅景深物理虚化、自然的边缘色散（Chromatic Aberration）、焦外柔和光斑（Bokeh）、夜景高感微弱噪点。
+*   **激活光学物理瑕疵**：大光圈浅景深物理虚化、自然的边缘色散（Chromatic Aberration）、焦外柔和弥散圆（Bokeh）、夜景高感微弱噪点。
 
 ### 2. 生物学生理微观细节与“活人呼吸感” (Biological Reality & Human Breathing)
 *   **显式声明未精修原生皮肤**：`完全未精修的自然人类皮肤质感，肉眼可见的细密毛孔与微小皮脂肌理`。
@@ -78,19 +79,12 @@
 ```text
 .
 ├── index.html                   # 交互式原型页面 (Game Universe Selector + 3 Prototypes)
-├── generate_new_games.py        # 赛博朋克2077与塞尔达传说 自动化生图流水线
-├── generate_20.py               # 艾尔登法环 20 组新图全自动生成脚本
-├── batch_generate.py            # 艾尔登法环 V1 生成脚本
-├── cyberpunk/                   # 赛博朋克2077 纯单反纪实高清大图 (4张)
-│   ├── 01_judy_realhuman.png
-│   ├── 02_johnny_realhuman.png
-│   ├── 03_panam_realhuman.png
-│   └── 04_nightcity_v_realhuman.png
-├── zelda/                       # 塞尔达传说：旷野之息 纯单反原野纪实大图 (4张)
-│   ├── 01_zelda_realhuman.png
-│   ├── 02_link_realhuman.png
-│   ├── 03_urbosa_realhuman.png
-│   └── 04_hyrule_vista_realhuman.png
+├── generate_full_index.py       # 全站 67 幅画作元数据与静态页面组装流水线
+├── batch_expand_all.py          # 赛博朋克2077与塞尔达传说 34 幅高画质新图自动生成流水线
+├── cyberpunk/                   # 赛博朋克2077 纯单反纪实高清原图 (21张，单张2~2.5MB)
+│   ├── 01_judy_realhuman.png ~ 21_nightcity_skyline_realhuman.png
+├── zelda/                       # 塞尔达传说：旷野之息 纯单反原野纪实原图 (21张，单张2.2~3.1MB)
+│   ├── 01_zelda_realhuman.png ~ 21_lurelin_village_realhuman.png
 ├── originals/                   # 官方原画与截图参考 (25组对比数据源)
 ├── v2_realhuman/                # 艾尔登法环 5 张核心重构大图
 └── v2_20_gallery/               # 艾尔登法环 20 张纯相机实拍原图

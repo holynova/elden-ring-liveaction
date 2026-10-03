@@ -1,0 +1,927 @@
+import json
+import os
+import re
+
+# ── 1. Elden Ring Items (25) ──
+eldenring_items = [
+    {
+        "id": "malenia",
+        "cat": "boss",
+        "name": "女武神 玛莲妮亚",
+        "en": "Malenia, Blade of Miquella",
+        "sub": "圣树根系幽水 · 未修图女性战士特写",
+        "src": "v2_realhuman/malenia_realhuman.png",
+        "orig": "originals/04_malenia_blade_of_miquella.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/500s · ISO 100",
+        "quote": "“密斯特拉的飞燕，终落于此。”",
+        "desc": "完全未修图的自然女性皮肤质感，肉眼可见的细微毛孔、唇纹与脸颊战痕；凌乱被风吹拂的长发；实物手工敲打的做旧黄铜假肢。"
+    },
+    {
+        "id": "tree_sentinel",
+        "cat": "boss",
+        "name": "大树守卫",
+        "en": "Tree Sentinel",
+        "sub": "宁姆格福秋林 · 重装骑士与夏尔黑战马",
+        "src": "v2_realhuman/tree_sentinel_realhuman.png",
+        "orig": "originals/02_tree_sentinel.png",
+        "lens": "70-200mm f/2.8",
+        "shutter": "1/800s · ISO 200",
+        "quote": "“凡踏入黄金律法之地者，皆受吾戟之试。”",
+        "desc": "面甲微掀露出充满实战疲惫与杀气的人类胡茬双眼；铁匠手工冷锻金铜板甲；重型战马在清晨寒气中从鼻孔喷出真实白雾，踏在泥泞落叶古道上。"
+    },
+    {
+        "id": "ranni",
+        "cat": "npc",
+        "name": "月之公主 菈妮",
+        "en": "Ranni the Witch",
+        "sub": "三姊妹塔露台 · 清冷魔女弱光人像",
+        "src": "v2_realhuman/ranni_realhuman.png",
+        "orig": "originals/06_ranni_the_witch.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/125s · ISO 800",
+        "quote": "“汝可见那冷冽的长夜与暗月？”",
+        "desc": "真实年轻女性面孔，冷白肤色下依然具备自然的微小雀斑与肌理光泽；纯手工编织的粗羊剪绒大衣、破旧羊毛毡尖顶帽；清澈微凉的活人眼神。"
+    },
+    {
+        "id": "volcano_manor",
+        "cat": "npc",
+        "name": "火山官邸女主人 塔妮丝",
+        "en": "Lady Tanith of Volcano Manor",
+        "sub": "格密尔古堡 · 室内中画幅贵妇肖像",
+        "src": "v2_realhuman/volcano_manor_realhuman.png",
+        "orig": "originals/03_volcano_manor.png",
+        "lens": "Hasselblad 80mm f/2.2",
+        "shutter": "1/60s · ISO 160",
+        "quote": "“唯有吞噬神明，方能打破桎梏。”",
+        "desc": "真实30多岁高贵冷艳熟龄女性肖像，天然眼角神韵与锁骨呼吸感；重磅真丝长裙的物理垂坠光泽；身后真实壁炉跳跃火星与铁艺烛台。"
+    },
+    {
+        "id": "leyndell",
+        "cat": "scene",
+        "name": "王城罗德尔 远眺",
+        "en": "Leyndell, Royal Capital Vista",
+        "sub": "城墙高台 · 退色者漫游者纪实抓拍",
+        "src": "v2_realhuman/leyndell_realhuman.png",
+        "orig": "originals/01_leyndell_royal_capital.png",
+        "lens": "35mm f/1.8",
+        "shutter": "1/1000s · ISO 100",
+        "quote": "“在晨雾尽头，黄金树依然高悬。”",
+        "desc": "国家地理式退色者第一视角，以磨损皮甲、风化粗亚麻斗篷、被风吹动的发丝打破纯远景建筑的虚浮CG感，展现站在悬崖石栏边的真实探索感。"
+    },
+    {
+        "id": "melina",
+        "cat": "npc",
+        "name": "梅琳娜",
+        "en": "Melina, Kindling Maiden",
+        "sub": "宁姆格福黄昏 · 篝火旁的旅行少女",
+        "src": "v2_20_gallery/01_melina_realhuman.png",
+        "orig": "originals/10_limgrave_erdtree.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/250s · ISO 200",
+        "quote": "“我将伴你同行，直到黄金树脚下。”",
+        "desc": "黄昏草甸金火旁的真实清秀女性，未修图皮肤毛孔、闭合左眼的刺青淡痕与右眸灵动神采，粗羊毛斗篷随微风拂动。"
+    },
+    {
+        "id": "varre",
+        "cat": "npc",
+        "name": "“白面具”梵雷",
+        "en": "White Mask Varré",
+        "sub": "引导之始草甸 · 沾血白瓷外科医生面具",
+        "src": "v2_20_gallery/02_varre_realhuman.png",
+        "orig": "originals/02_tree_sentinel.png",
+        "lens": "50mm f/1.4",
+        "shutter": "1/640s · ISO 100",
+        "quote": "“哎呀，真是位可怜的无巫女之人呢。”",
+        "desc": "优雅的欧洲男子手持做旧陶瓷外科医生面具，阳光下露出深邃而审视的活人笑容与微小胡茬，风衣上带有斑驳陈旧血渍。"
+    },
+    {
+        "id": "boggart",
+        "cat": "npc",
+        "name": "“煮虾哥”布莱格",
+        "en": "Blackguard Big Boggart",
+        "sub": "湖区煮虾破屋 · 饱经风霜的市井硬汉",
+        "src": "v2_20_gallery/03_boggart_realhuman.png",
+        "orig": "originals/07_rennala_full_moon.png",
+        "lens": "35mm f/2.0",
+        "shutter": "1/320s · ISO 400",
+        "quote": "“喜欢吃虾的人，都不会是坏人。”",
+        "desc": "湿地破木屋前坐木桶啃大螯虾的满脸烟火气大叔，粗糙晒斑皮肤、推起的水壶头盔与大铁锅滚滚白色热汽，充满真实生活感。"
+    },
+    {
+        "id": "alexander",
+        "cat": "npc",
+        "name": "铁拳亚历山大与流浪者",
+        "en": "Iron Fist Alexander",
+        "sub": "圣人桥泥坑 · 粗陶战士瓮现场探秘",
+        "src": "v2_20_gallery/04_alexander_realhuman.png",
+        "orig": "originals/10_limgrave_erdtree.png",
+        "lens": "28mm f/2.8",
+        "shutter": "1/400s · ISO 200",
+        "quote": "“我乃卡利亚的战士壶，铁拳亚历山大！”",
+        "desc": "探险家蹲在泥坑旁扶着两米多高、带金缮裂纹与粗陶质感的古代战士巨瓮，秋天枯草与泥土飞溅，宛如真实的片场抓拍。"
+    },
+    {
+        "id": "blaidd",
+        "cat": "npc",
+        "name": "“半狼”布莱泽",
+        "en": "Blaidd the Half-Wolf",
+        "sub": "迷雾森林高台 · 冷月重装狼首特技战士",
+        "src": "v2_20_gallery/05_blaidd_realhuman.png",
+        "orig": "originals/06_ranni_the_witch.png",
+        "lens": "70-200mm f/2.8",
+        "shutter": "1/160s · ISO 640",
+        "quote": "“只要是为了菈妮，我万死不辞。”",
+        "desc": "迷雾森林废墟高台上的重甲狼首特技战士，夜色冷风中倒竖的浓密真狼毛与口鼻白雾，充满威慑力与活人感。"
+    },
+    {
+        "id": "fia",
+        "cat": "npc",
+        "name": "死眠少女 菲雅",
+        "en": "Fia, Deathbed Companion",
+        "sub": "圆桌厅堂卧室 · 烛光温存与哀悼之袍",
+        "src": "v2_20_gallery/06_fia_realhuman.png",
+        "orig": "originals/06_ranni_the_witch.png",
+        "lens": "Hasselblad 80mm f/2.2",
+        "shutter": "1/50s · ISO 400",
+        "quote": "“愿这微小的温暖，能拂去你的疲惫。”",
+        "desc": "圆桌厅堂烛光卧室中柔美哀伤的年轻女性，未修图锁骨与脸颊，温柔抱拥旅人的真实手掌，深黑天鹅绒面料真实垂坠。"
+    },
+    {
+        "id": "hyetta",
+        "cat": "npc",
+        "name": "盲女海妲",
+        "en": "Hyetta, Maiden of Three Fingers",
+        "sub": "利耶尼亚湿地 · 粗布蒙眼与摇曳火光",
+        "src": "v2_20_gallery/07_hyetta_realhuman.png",
+        "orig": "originals/07_rennala_full_moon.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/200s · ISO 320",
+        "quote": "“我能感受到……那温暖又炽热的光芒。”",
+        "desc": "粗布眼罩下的苍白素净脸庞与脱皮唇纹，在利耶尼亚阴雨岩石上颤抖双手捧着发光葡萄，充满纯洁与脆弱的情感张力。"
+    },
+    {
+        "id": "goldmask",
+        "cat": "npc",
+        "name": "金面具",
+        "en": "Goldmask, Radiant Transcendence",
+        "sub": "断桥悬崖硬光 · 黄铜向日葵苦修智者",
+        "src": "v2_20_gallery/08_goldmask_realhuman.png",
+        "orig": "originals/01_leyndell_royal_capital.png",
+        "lens": "50mm f/1.8",
+        "shutter": "1/1000s · ISO 100",
+        "quote": "“……”（静默指天）",
+        "desc": "消瘦嶙峋的老年苦行僧，手工锻造向日葵黄铜面具在夕阳下反光，站在狂风吹拂的石桥边缘，右臂骨瘦如柴的手指指向苍穹。"
+    },
+    {
+        "id": "rogier",
+        "cat": "npc",
+        "name": "魔法剑士 罗杰尔",
+        "en": "Sorcerer Rogier",
+        "sub": "圆桌回廊墙角 · 宽檐羽毛大帽与病弱学者",
+        "src": "v2_20_gallery/09_rogier_realhuman.png",
+        "orig": "originals/07_rennala_full_moon.png",
+        "lens": "50mm f/1.4",
+        "shutter": "1/80s · ISO 500",
+        "quote": "“抱歉啊，我的双腿已经不太听使唤了。”",
+        "desc": "圆桌走廊墙角盖着粗羊毛毯的病弱学者，宽檐羽毛大帽、微弱青黑眼圈与银色细剑，散发着温润谦逊的生活气息。"
+    },
+    {
+        "id": "vagram_wolf",
+        "cat": "npc",
+        "name": "“战鬼”巴格莱姆",
+        "en": "Raging Wolf Tarnished",
+        "sub": "冷风古战场 · 冷锻高碳钢白狼重甲",
+        "src": "v2_20_gallery/10_vagram_wolf_realhuman.png",
+        "orig": "originals/02_tree_sentinel.png",
+        "lens": "70-200mm f/2.8",
+        "shutter": "1/1000s · ISO 400",
+        "quote": "“起舞于血与火中的白狼。”",
+        "desc": "封面标志性白狼骑士，冷作锻造高碳钢凹痕板甲、甩动白色马鬃与战场雨水泥泞，单膝跪在废墟上单手握旧钢阔剑。"
+    },
+    {
+        "id": "godfrey",
+        "cat": "boss",
+        "name": "初代艾尔登之王 葛孚雷",
+        "en": "Godfrey, First Elden Lord",
+        "sub": "残垣王座大厅 · 蛮王花白须髯与豁口重斧",
+        "src": "v2_20_gallery/11_godfrey_realhuman.png",
+        "orig": "originals/05_starscourge_radahn.png",
+        "lens": "50mm f/1.2",
+        "shutter": "1/400s · ISO 250",
+        "quote": "“吾之勇猛，乃王之明证！”",
+        "desc": "魁梧中老年蛮王，花白络腮胡、满身真实战伤刀疤与豁口巨斧，斜阳穿透神殿残壁照在他坚毅冷酷的面庞上。"
+    },
+    {
+        "id": "morgott",
+        "cat": "boss",
+        "name": "“恶兆王”蒙葛特",
+        "en": "Morgott, the Omen King",
+        "sub": "罗德尔王座台阶 · 莎翁悲剧角质王者",
+        "src": "v2_20_gallery/12_morgott_realhuman.png",
+        "orig": "originals/08_margit_fell_omen.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/200s · ISO 320",
+        "quote": "“满朝叛逆……吾必守至最后一息。”",
+        "desc": "悲怆老者面容，生有粗糙天然角质硬角，赤足踏在罗德尔王座石阶上，粗糙双手拄着老树根手杖，神情沧桑动人。"
+    },
+    {
+        "id": "mohg",
+        "cat": "boss",
+        "name": "“鲜血君王”蒙格",
+        "en": "Mohg, Lord of Blood",
+        "sub": "地下血庙暗室 · 百烛跳跃与铸铁血叉",
+        "src": "v2_20_gallery/13_mohg_realhuman.png",
+        "orig": "originals/05_starscourge_radahn.png",
+        "lens": "35mm f/1.4",
+        "shutter": "1/100s · ISO 800",
+        "quote": "“欢迎来到……吾等蒙格温王朝！”",
+        "desc": "昏暗地下神殿中数百红烛照耀的黑暗君王，黑色天鹅绒金丝长袍与铸铁三叉血戟，眼神疯狂狂热。"
+    },
+    {
+        "id": "godrick",
+        "cat": "boss",
+        "name": "“接肢”葛瑞克",
+        "en": "Godrick the Grafted",
+        "sub": "城堡中庭泥地 · 落魄疯王与炭化龙头骨",
+        "src": "v2_20_gallery/14_godrick_realhuman.png",
+        "orig": "originals/08_margit_fell_omen.png",
+        "lens": "50mm f/1.8",
+        "shutter": "1/500s · ISO 200",
+        "quote": "“伟大的先祖啊，请见证我的升华！”",
+        "desc": "史东薇尔中庭泥地中满头冷汗与老年斑的落魄疯王，手臂套装着做旧炭化龙头喷火器，牙齿狰狞，令人震撼。"
+    },
+    {
+        "id": "messmer",
+        "cat": "boss",
+        "name": "“穿刺者”梅瑟莫",
+        "en": "Messmer the Impaler",
+        "sub": "黄金树幽影王座 · 苍白红发与暗烬刺矛",
+        "src": "v2_20_gallery/15_messmer_realhuman.png",
+        "orig": "originals/05_starscourge_radahn.png",
+        "lens": "85mm f/1.4",
+        "shutter": "1/160s · ISO 400",
+        "quote": "“无母之人……当在此受灼烧之刑。”",
+        "desc": "黑铁王座上苍白高挑的红发青年男子，细微蛇鳞纹理、燃烧余烬长矛与阴郁压迫感，火星在空气中漂移。"
+    },
+    {
+        "id": "loretta",
+        "cat": "boss",
+        "name": "圣树骑士 罗蕾塔",
+        "en": "Royal Knight Loretta",
+        "sub": "卡利亚夜月浅水 · 镀银板甲与飞溅水珠",
+        "src": "v2_20_gallery/16_loretta_realhuman.png",
+        "orig": "originals/02_tree_sentinel.png",
+        "lens": "70-200mm f/2.8",
+        "shutter": "1/250s · ISO 500",
+        "quote": "“骑士的战戟，守护月与繁星。”",
+        "desc": "卡利亚庄园泛水池塘中月夜涉水而过的女重骑兵，白马飞溅晶莹水滴，镀银板甲与三米长金属战戟在冷月下反光。"
+    },
+    {
+        "id": "stormveil_cliff",
+        "cat": "scene",
+        "name": "史东薇尔城 悬崖外墙",
+        "en": "Stormveil Castle Cliffside",
+        "sub": "风雨海蚀险境 · 木栈道攀爬者纪实",
+        "src": "v2_20_gallery/17_stormveil_cliff_realhuman.png",
+        "orig": "originals/08_margit_fell_omen.png",
+        "lens": "24mm f/2.8",
+        "shutter": "1/1250s · ISO 400",
+        "quote": "“咆哮的风暴撕扯着每一寸断崖。”",
+        "desc": "狂风暴雨中攀爬百米海蚀悬崖外木栈道的探险者，镜头上的飞溅雨珠与拍岸狂浪，充满真实冒险的窒息感。"
+    },
+    {
+        "id": "raya_lucaria",
+        "cat": "scene",
+        "name": "雷亚卢卡利亚 水上墓地",
+        "en": "Raya Lucaria Graveyard",
+        "sub": "晨雾及膝湿地 · 黄铜马灯与学者背影",
+        "src": "v2_20_gallery/18_raya_lucaria_graveyard_realhuman.png",
+        "orig": "originals/07_rennala_full_moon.png",
+        "lens": "35mm f/1.4",
+        "shutter": "1/200s · ISO 250",
+        "quote": "“湿冷的晨雾中，睡莲静静吐露幽光。”",
+        "desc": "提着黄铜马灯在及膝晨雾浅水墓地漫步的学者，暗蓝粗呢长袍与冷蓝荧光睡莲，空气透视逼真自然。"
+    },
+    {
+        "id": "siofra",
+        "cat": "scene",
+        "name": "希芙拉河 地下星空",
+        "en": "Siofra River Underground",
+        "sub": "万丈地心深渊 · 亿万蓝色微生物银河",
+        "src": "v2_20_gallery/19_siofra_river_realhuman.png",
+        "orig": "originals/06_ranni_the_witch.png",
+        "lens": "20mm f/1.8",
+        "shutter": "15s · ISO 1600",
+        "quote": "“大地之下，沉睡着远古的繁星。”",
+        "desc": "大石柱基座上仰望万亿蓝色发光微生物“地下银河”的流浪背包骑士长曝光夜景，微风拂动发丝与衣角。"
+    },
+    {
+        "id": "farum_azula",
+        "cat": "scene",
+        "name": "法姆·亚兹拉 崩解风暴",
+        "en": "Crumbling Farum Azula",
+        "sub": "悬浮古殿狂风 · 高速快门凝固飞石碎屑",
+        "src": "v2_20_gallery/20_farum_azula_realhuman.png",
+        "orig": "originals/09_maliketh_black_blade.png",
+        "lens": "24-70mm f/2.8",
+        "shutter": "1/4000s · ISO 800",
+        "quote": "“时间在此停滞，风暴永不停歇。”",
+        "desc": "重甲骑士顶着千米高空电闪雷鸣的风暴与飞舞碎石在大断桥上艰难前行，碎石与风暴气旋细节被高速快门定格。"
+    }
+]
+
+# ── 2. Cyberpunk 2077 Items (21) ──
+cyberpunk_items = [
+    {
+        "id": "cp01_judy",
+        "cat": "npc",
+        "name": "朱迪·阿尔瓦雷斯",
+        "en": "Judy Alvarez",
+        "sub": "歌舞伎町超梦工作室 · 室内微光肖像",
+        "src": "cyberpunk/01_judy_realhuman.png",
+        "lens": "Sony A7R5 · 85mm f/1.4 GM",
+        "shutter": "1/160s · ISO 640",
+        "quote": "“夜之城从不给任何人许下诺言，但这里有我调出的真实温度。”",
+        "desc": "室内微弱冷暖霓虹下的年轻拉美裔女性特写，未修图小麦色皮肤与细微毛孔、自然唇纹与额前湿润湿发，耳后颈部带有做旧机械义体神经接口的真实金属与皮肤接缝。"
+    },
+    {
+        "id": "cp02_johnny",
+        "cat": "npc",
+        "name": "强尼·银手",
+        "en": "Johnny Silverhand",
+        "sub": "地下摇滚酒吧后台 · 纪实抓拍肖像",
+        "src": "cyberpunk/02_johnny_realhuman.png",
+        "lens": "Canon EOS R5 · 50mm f/1.2 L",
+        "shutter": "1/200s · ISO 800",
+        "quote": "“醒醒吧，武士！我们还有座城市要烧成灰烬。”",
+        "desc": "消瘦硬汉，油腻凌乱黑发与花白胡茬，透过飞行员墨镜边缘凝视镜头；左臂为真实工业级冷锻不锈钢机械臂假肢，金属表面布满真实划痕、润滑油渍与螺栓细节。"
+    },
+    {
+        "id": "cp03_panam",
+        "cat": "npc",
+        "name": "帕南·帕尔默",
+        "en": "Panam Palmer",
+        "sub": "恶土沙漠黄昏 · 阿德卡多流浪者特写",
+        "src": "cyberpunk/03_panam_realhuman.png",
+        "lens": "Nikon Z9 · 70-200mm f/2.8 S",
+        "shutter": "1/1000s · ISO 200",
+        "quote": "“只要油箱里还有油，恶土的狂风就永远吹不垮阿德卡多。”",
+        "desc": "国家地理式沙漠纪实抓拍，健康小麦色肤色与微小汗珠、细微沙尘颗粒与自然雀斑，红白粗帆布流浪者夹克，依靠在沾满沙尘的改装越野皮卡车旁。"
+    },
+    {
+        "id": "cp04_nightcity_v",
+        "cat": "scene",
+        "name": "夜之城雨夜街头与雇佣兵 V",
+        "en": "Night City Rainy Street / V",
+        "sub": "歌舞伎町狭小湿巷 · 高速快门夜景抓拍",
+        "src": "cyberpunk/04_nightcity_v_realhuman.png",
+        "lens": "Leica M11 · 35mm f/1.4 Summilux",
+        "shutter": "1/250s · ISO 1600",
+        "quote": "“在霓虹倒影与水洼深处，每个人都在为明天赌命。”",
+        "desc": "身穿磨损武士高领立领飞行员夹克的混血雇佣兵背影，雨夜水洼倒映粉红翠绿霓虹灯，身旁拉面摊翻滚热腾腾白色水汽，镜头带有真实雨雾与柔和散景光斑。"
+    },
+    {
+        "id": "cp05_jackie",
+        "cat": "npc",
+        "name": "杰克·韦尔斯",
+        "en": "Jackie Welles",
+        "sub": "海伍德野狼酒吧 · 义气硬汉微醺抓拍",
+        "src": "cyberpunk/05_jackie_realhuman.png",
+        "lens": "Sony A7R5 · 50mm f/1.2 GM",
+        "shutter": "1/125s · ISO 400",
+        "quote": "“敬夜之城！敬海伍德的大个子！”",
+        "desc": "高大魁梧拉美男子，未修图自然深色皮肤与微小胡茬、鼻梁旧疤痕，眼神温暖爽朗；右手冷锻金属指节套件带着机油污渍，野狼酒吧吧台前手握冰啤酒。"
+    },
+    {
+        "id": "cp06_river",
+        "cat": "npc",
+        "name": "瑞弗·沃德",
+        "en": "River Ward",
+        "sub": "细雨巡逻现场 · NCPD重案组硬派警探",
+        "src": "cyberpunk/06_river_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/160s · ISO 800",
+        "quote": "“有些真相，只有在最黑暗的雨夜才能看清。”",
+        "desc": "印第安原住民裔壮汉，右眼微型机械网络眼义体泛着幽蓝微光与眼眶接缝逼真自然；沾着细碎雨滴的做旧厚翻领粗毛呢大衣，车灯丁达尔光柱照耀犯罪现场。"
+    },
+    {
+        "id": "cp07_kerry",
+        "cat": "npc",
+        "name": "克里·欧罗克林",
+        "en": "Kerry Eurodyne",
+        "sub": "北橡区豪宅泳池 · 颓废传奇摇滚巨星",
+        "src": "cyberpunk/07_kerry_realhuman.png",
+        "lens": "Leica SL2 · 50mm f/1.4",
+        "shutter": "1/320s · ISO 100",
+        "quote": "“他们想要传奇？那就给他们瞧瞧老炮的咆哮。”",
+        "desc": "六旬亚裔摇滚传奇，神情颓废不羁，复古多边形金丝茶色墨镜；做旧暗金刺绣真丝开衫与彩色纹身，豪宅无边泳池旁抱满是划痕的手工电吉他，夕阳俯瞰天际线。"
+    },
+    {
+        "id": "cp08_rogue",
+        "cat": "npc",
+        "name": "罗格·亚曼迪亚斯",
+        "en": "Rogue Amendiares",
+        "sub": "来生酒吧深处卡座 · 顶级中间人女王",
+        "src": "cyberpunk/08_rogue_realhuman.png",
+        "lens": "Hasselblad X2D · 80mm f/1.9",
+        "shutter": "1/80s · ISO 320",
+        "quote": "“在来生，只要付得起代价，死人也能开口说话。”",
+        "desc": "七旬来生酒吧女王，挑染青灰短发，深刻岁月皱纹与鹰隼般锐利眼神；做旧深棕真皮夹克，昏暗卡座内单手握盛满冰块的威士忌杯，冷绿霓虹与缭绕烟雾。"
+    },
+    {
+        "id": "cp09_takemura",
+        "cat": "npc",
+        "name": "竹村五郎",
+        "en": "Goro Takemura",
+        "sub": "雨夜路边快餐摊 · 坚毅隐忍传统武士",
+        "src": "cyberpunk/09_takemura_realhuman.png",
+        "lens": "Sony A7R5 · 50mm f/1.2 GM",
+        "shutter": "1/200s · ISO 1200",
+        "quote": "“名誉胜于生命，即便在阴沟里也不得玷污。”",
+        "desc": "五十岁消瘦日本保镖武士，自然胡茬与疲惫眼眶，颈部两侧露出被停用军规级粗粝接口接缝；磨损防雨立领风衣，雨夜低头吃油腻纸包汉堡，酸雨路灯倒影。"
+    },
+    {
+        "id": "cp10_smasher",
+        "cat": "boss",
+        "name": "亚当·重锤",
+        "en": "Adam Smasher",
+        "sub": "荒坂地下安保通道 · 全金属重装杀戮机器",
+        "src": "cyberpunk/10_smasher_realhuman.png",
+        "lens": "Nikon Z9 · 24-70mm f/2.8 S",
+        "shutter": "1/500s · ISO 800",
+        "quote": "“血肉不过是脆弱的柴薪，唯有钢铁永存。”",
+        "desc": "两米高全金属改造生化人，冷轧装甲钢板、液压传动杆与厚重螺栓拼装，表面弹孔凹痕与机油渗漏；四枚红色工业光学传感器镜头散发冰冷红光，白色冷蒸汽喷涌。"
+    },
+    {
+        "id": "cp11_misty",
+        "cat": "npc",
+        "name": "密斯蒂·奥舍夫斯基",
+        "en": "Misty Olszewski",
+        "sub": "通灵占卜屋内 · 温柔哥特朋克女孩",
+        "src": "cyberpunk/11_misty_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/100s · ISO 400",
+        "quote": "“命运就像塔罗牌，翻开之前永远带着未知的微光。”",
+        "desc": "自然白皙未精修皮肤与细微毛孔，晕染黑色烟熏妆与蓬松朋克短发；铆钉皮夹克，双手戴多枚古银戒指轻抚磨损塔罗牌，室内手工蜡烛跳跃暖光与幽暗粉紫霓虹。"
+    },
+    {
+        "id": "cp12_viktor",
+        "cat": "npc",
+        "name": "维克托·维克托",
+        "en": "Viktor Vector",
+        "sub": "地下义体手术室 · 沧桑老派义医工匠",
+        "src": "cyberpunk/12_viktor_realhuman.png",
+        "lens": "Sony A7R5 · 50mm f/1.4 GM",
+        "shutter": "1/125s · ISO 500",
+        "quote": "“别乱动，这根神经排线比你的小命还金贵。”",
+        "desc": "五十多岁老派义体医生，头戴精密多重放大目镜，沧桑笑纹与花白胡茬；沾满机油与消毒水的厚工装连体服，双手握螺丝刀在昏暗手术台调试仿生手臂排线。"
+    },
+    {
+        "id": "cp13_delamain_cab",
+        "cat": "scene",
+        "name": "德拉曼豪华出租车内景",
+        "en": "Delamain Cab Interior",
+        "sub": "雨夜高架疾驰 · 防弹真皮车厢与幽蓝AI",
+        "src": "cyberpunk/13_delamain_cab_realhuman.png",
+        "lens": "Leica Q3 · 28mm f/1.7",
+        "shutter": "1/60s · ISO 800",
+        "quote": "“欢迎搭乘德拉曼贵宾专车，尊贵的乘客。”",
+        "desc": "防弹自动驾驶出租车真皮后座视角，暴雨倾盆的立交桥窗外雨流倒映摩天楼群；中控屏幕柔和幽蓝冷光与德拉曼AI头像，慢速快门下窗外飞掠的红色车流光轨。"
+    },
+    {
+        "id": "cp14_aldecaldos_camp",
+        "cat": "scene",
+        "name": "恶土阿德卡多流浪者营地",
+        "en": "Aldecaldos Camp Fire",
+        "sub": "沙漠荒野夜空 · 营火聚会与改装重卡",
+        "src": "cyberpunk/14_aldecaldos_camp_realhuman.png",
+        "lens": "Sony A7S3 · 35mm f/1.4 GM",
+        "shutter": "1/50s · ISO 1600",
+        "quote": "“在恶土，家人就是唯一的避风港。”",
+        "desc": "阿德卡多流浪者们围坐旧铁桶改造的篝火旁，跳跃火光照亮面部毛孔与粗糙笑纹；木吉他旋律回荡，停靠着沾满风沙的改装四驱重卡，头顶是浩瀚银河与漂移火星。"
+    },
+    {
+        "id": "cp15_pacifica",
+        "cat": "scene",
+        "name": "太平洲烂尾度假区与海滩",
+        "en": "Pacifica District & Beach",
+        "sub": "阴沉海岸废墟 · 烂尾商场骨架与街头黑客",
+        "src": "cyberpunk/15_pacifica_realhuman.png",
+        "lens": "Nikon Z9 · 24-70mm f/2.8 S",
+        "shutter": "1/800s · ISO 100",
+        "quote": "“这里是被所有人遗弃的乌托邦，也是自由的废土。”",
+        "desc": "阴沉天空下大帝国购物中心宏伟烂尾骨架与锈蚀摩天轮，海滩潮湿黑沙与垃圾碎石；坐在水泥墩上的黑客青年背影，充满真实震撼的后赛博废墟感。"
+    },
+    {
+        "id": "cp16_yorinobu",
+        "cat": "npc",
+        "name": "荒坂赖宣",
+        "en": "Yorinobu Arasaka",
+        "sub": "绀碧大厦顶层套房 · 财阀少主的冷峻野望",
+        "src": "cyberpunk/16_yorinobu_realhuman.png",
+        "lens": "Hasselblad X2D · 80mm f/1.9",
+        "shutter": "1/125s · ISO 200",
+        "quote": "“我将从内部瓦解这座囚禁全世界的黄金牢笼。”",
+        "desc": "四十五岁荒坂家族继承人，冷峻威严兼具隐秘反叛，黑色重磅真丝和式西装外套；全景隔音落地窗前俯瞰夜之城璀璨如星海的摩天大厦群与穿梭浮空车光流。"
+    },
+    {
+        "id": "cp17_lizzies_mox",
+        "cat": "npc",
+        "name": "丽姿酒吧前台与莫克斯帮战士",
+        "en": "Lizzie's Bar & The Mox",
+        "sub": "粉红闪烁霓虹门框 · 棒球棍与叛逆刺青",
+        "src": "cyberpunk/17_lizzies_mox_realhuman.png",
+        "lens": "Canon EOS R5 · 50mm f/1.2 L",
+        "shutter": "1/200s · ISO 640",
+        "quote": "“管好你的手，这里是莫克斯的地盘。”",
+        "desc": "粉青双拼短发年轻女战士，真实毛孔与眼下亮片妆容，漆皮马甲与超短热裤；仿生义体手臂扛着缠满粉胶带的金属球棒，粉红闪烁霓虹门框前，大光圈散景柔美。"
+    },
+    {
+        "id": "cp18_megabuilding_h10",
+        "cat": "scene",
+        "name": "超级摩天楼 H10 狭小公寓",
+        "en": "Megabuilding H10 Apartment",
+        "sub": "杂乱四百尺寓所 · 超梦头盔与万丈天井",
+        "src": "cyberpunk/18_megabuilding_h10_realhuman.png",
+        "lens": "Sony A7R5 · 35mm f/1.4 GM",
+        "shutter": "1/80s · ISO 400",
+        "quote": "“四百尺鸽子笼，就是无数底层雇佣兵的全部归宿。”",
+        "desc": "破旧金属桌上散落的可乐罐、冷披萨盒与划痕超梦头盔，雇佣兵坐在沙发床边系靴带；百叶窗外透进巨大黄色广告全息投影与万丈天井深渊，充满真实底层生活感。"
+    },
+    {
+        "id": "cp19_clouds_reception",
+        "cat": "npc",
+        "name": "云顶高级会所前台与生化玩偶",
+        "en": "Clouds Reception Desk",
+        "sub": "幽暗紫雾走廊 · 端庄精致人造生化人",
+        "src": "cyberpunk/19_clouds_reception_realhuman.png",
+        "lens": "Leica SL2 · 85mm f/1.4",
+        "shutter": "1/160s · ISO 320",
+        "quote": "“在这里，你能找到心底最渴望的抚慰。”",
+        "desc": "容貌端庄精致的人造皮肤年轻女性，微细毛孔与自然唇纹，耳鬓微小发丝级镀金机械接缝；银灰丝绒长裙，淡粉淡紫雾气幽暗长廊，散发令人屏息的高级赛博冷艳。"
+    },
+    {
+        "id": "cp20_little_china_market",
+        "cat": "scene",
+        "name": "小唐人街夜市与面摊",
+        "en": "Little China Night Market",
+        "sub": "滚沸蒸汽与红灯笼 · 义体市民的大口热汤",
+        "src": "cyberpunk/20_little_china_market_realhuman.png",
+        "lens": "Fujifilm GFX 100 II · 45mm f/2.8",
+        "shutter": "1/250s · ISO 1000",
+        "quote": "“即便世界换上义体，肚皮依然想念一碗热汤。”",
+        "desc": "老华人厨师大铁锅捞面，浓白水汽在红蓝霓虹下升腾；普通市民低头大口吃面，红灯笼与巨大中文立体全息投影鲤鱼交相辉映，湿漉路面映照出绚丽倒影与烟火气。"
+    },
+    {
+        "id": "cp21_nightcity_skyline",
+        "cat": "scene",
+        "name": "夜之城全景天际线与夕阳酸雨",
+        "en": "Night City Skyline Vista",
+        "sub": "恶土垃圾山边缘高台 · 穿透雾霾的血橙残阳",
+        "src": "cyberpunk/21_nightcity_skyline_realhuman.png",
+        "lens": "Canon EOS R5 · 70-200mm f/2.8 L",
+        "shutter": "1/1000s · ISO 100",
+        "quote": "“夜之城，永远在金色余晖与血泪中咆哮伫立。”",
+        "desc": "恶土垃圾山边缘车顶背包流浪者背影与双筒望远镜，血橙色残阳穿透浓厚酸雨雾霾，刺目金光勾勒荒坂塔等上百座顶天立地超级摩天大厦庞大剪影，史诗级远景纪实。"
+    }
+]
+
+# ── 3. Zelda: Breath of the Wild Items (21) ──
+zelda_items = [
+    {
+        "id": "zelda01_princess",
+        "cat": "npc",
+        "name": "塞尔达公主",
+        "en": "Princess Zelda",
+        "sub": "海拉鲁青翠原野 · 王国学者真实肖像",
+        "src": "zelda/01_zelda_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/500s · ISO 100",
+        "quote": "“海拉鲁的历史与守护者……一定隐藏着拯救王国的关键。”",
+        "desc": "未精修自然白皙皮肤、肉眼可见的细密毛孔、微小雀斑与唇纹，浅金色发辫带凌乱碎发；手工粗纺深蓝英杰长袍，双手捧着风化石板与黄铜希卡之石实物道具。"
+    },
+    {
+        "id": "zelda02_link",
+        "cat": "npc",
+        "name": "英杰林克",
+        "en": "Link, the Champion",
+        "sub": "科摩罗湖边清晨薄雾 · 少年剑士动作特写",
+        "src": "zelda/02_link_realhuman.png",
+        "lens": "Sony A7R5 · 85mm f/1.4 GM",
+        "shutter": "1/800s · ISO 200",
+        "quote": "“（紧握剑柄，凝视破晓的雾气）”",
+        "desc": "身形精悍的年轻剑士，散乱短发贴在额前，深蓝眼眸清澈警惕，下颌细微浅疤；粗纺天蓝亚麻英杰服与真皮剑带，手握带有风蚀暗痕与微小缺口的钢质大师之剑。"
+    },
+    {
+        "id": "zelda03_urbosa",
+        "cat": "boss",
+        "name": "格鲁德英杰 乌尔波扎",
+        "en": "Urbosa, Gerudo Champion",
+        "sub": "格鲁德广袤沙丘 · 烈日强光女战神",
+        "src": "zelda/03_urbosa_realhuman.png",
+        "lens": "Nikon Z9 · 50mm f/1.2 S",
+        "shutter": "1/2000s · ISO 100",
+        "quote": "“为了塞尔达，为了格鲁德……雷霆降临！”",
+        "desc": "五官深邃英朗的古铜色皮肤女武士，真实毛孔与细腻汗光，浓密深红编织长发；手工雕花纯铜板甲与青金石镶嵌战甲，单手握做旧圆月弯刀与铜盾，气势磅礴。"
+    },
+    {
+        "id": "zelda04_hyrule_vista",
+        "cat": "scene",
+        "name": "初始台地与海拉鲁城堡远眺",
+        "en": "Hyrule Castle & Great Plateau Vista",
+        "sub": "高空断崖晨光 · 孤独旅人国家地理远足纪实",
+        "src": "zelda/04_hyrule_vista_realhuman.png",
+        "lens": "Canon EOS R5 · 24-70mm f/2.8 L",
+        "shutter": "1/1250s · ISO 200",
+        "quote": "“一百年的沉睡之后，大地依然在静静呼吸。”",
+        "desc": "身穿磨损绿亚麻斗篷与皮甲背包的旅行者背影与侧颜，高空山风吹拂发丝与衣角；手扶青苔断裂古石栏，远眺连绵原始松林与晨光中被灾厄紫烟缭绕的城堡废墟。"
+    },
+    {
+        "id": "zelda05_mipha",
+        "cat": "npc",
+        "name": "卓拉英杰 米法",
+        "en": "Mipha, Zora Champion",
+        "sub": "露托山蓄水湖畔 · 温柔水生少女与光鳞之枪",
+        "src": "zelda/05_mipha_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/640s · ISO 100",
+        "quote": "“只要你受到伤害，无论何时何地，我都会治愈你。”",
+        "desc": "清丽温柔年轻异族少女特写，红白鳞片天然珠光质感与水润光泽，天蓝英杰饰带；手握古银色冷锻金属与青金石光鳞之枪实物道具，湖面微波泛起粼粼金光。"
+    },
+    {
+        "id": "zelda06_revali",
+        "cat": "npc",
+        "name": "利特英杰 力巴尔",
+        "en": "Revali, Rito Champion",
+        "sub": "飞行训练场狂风绝壁 · 鹰隼神射手与大鹫弓",
+        "src": "zelda/06_revali_realhuman.png",
+        "lens": "Nikon Z9 · 400mm f/2.8 TC",
+        "shutter": "1/2500s · ISO 200",
+        "quote": "“就让你见识一下，利特一族最伟大的神技吧！”",
+        "desc": "两米高深蓝雪白羽毛神射手，羽毛根根分明在狂风中剧烈翻飞，金色鹰隼双眸锐利神采；风蚀古木与牛角精雕大鹫弓实物猎弓道具，千米绝壁雪云背景气势凌厉。"
+    },
+    {
+        "id": "zelda07_daruk",
+        "cat": "boss",
+        "name": "鼓隆英杰 达尔克尔",
+        "en": "Daruk, Goron Champion",
+        "sub": "死亡火山熔岩瀑布 · 玄武岩巨汉与碎岩巨剑",
+        "src": "zelda/07_daruk_realhuman.png",
+        "lens": "Sony A7R5 · 70-200mm f/2.8 GM",
+        "shutter": "1/1600s · ISO 250",
+        "quote": "“哈哈！只要有达尔克尔的守护在，万事皆安，兄弟！”",
+        "desc": "小山般岩石巨汉，花岗岩玄武岩粗糙质感皮肤、石英晶体胡须与豪迈大笑；天蓝粗纺饰带，肩抗两米长黑铁碎岩巨剑，滚烫熔岩瀑布与升腾热浪扭曲空气。"
+    },
+    {
+        "id": "zelda08_paya",
+        "cat": "npc",
+        "name": "希卡族族长侍女 帕雅",
+        "en": "Paya",
+        "sub": "英帕大宅青苔木露台 · 腼腆脸红白发少女",
+        "src": "zelda/08_paya_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/250s · ISO 160",
+        "quote": "“林、林克大人……请不要一直盯着我……”",
+        "desc": "面颊泛起真实酡红的害羞白发少女，额头红色水滴眼睛图腾，白皙未修图皮肤与天然唇纹；和风棉短袍，紧抱古籍线装日记本，青苔木露台阳光透过古松树光影。"
+    },
+    {
+        "id": "zelda09_purah",
+        "cat": "npc",
+        "name": "古代研究所学者 普尔亚",
+        "en": "Purah",
+        "sub": "哈特诺古代研究所 · 红框圆镜与发条核心齿轮",
+        "src": "zelda/09_purah_realhuman.png",
+        "lens": "Sony A7R5 · 50mm f/1.2 GM",
+        "shutter": "1/160s · ISO 320",
+        "quote": "“咔嚓！这可是划时代的古代科技发现哦！”",
+        "desc": "神情狡黠聪慧的白发年轻学者，做旧红框圆形大镜片后灵动眼眸；白大褂沾机油与试剂污渍，摆弄散发幽蓝冷光的发条齿轮，羊皮纸蓝图与烧瓶散落工作台。"
+    },
+    {
+        "id": "zelda10_kass",
+        "cat": "npc",
+        "name": "吟游诗人 卡西瓦",
+        "en": "Kass",
+        "sub": "雷鸣平原蘑菇岩避雨亭 · 翠绿巨鸟琴手与手风琴",
+        "src": "zelda/10_kass_realhuman.png",
+        "lens": "Nikon Z9 · 70-200mm f/2.8 S",
+        "shutter": "1/200s · ISO 640",
+        "quote": "“愿这古老的赞歌，指引勇者通往试炼之路。”",
+        "desc": "深翠绿与天蓝羽毛被雨水打湿的青鸟琴手，沧桑沉静眼眸；坚韧细鳞宽爪双手拉动红木黄铜手风琴，雷鸣平原巨大石伞蘑菇岩古亭避雨，雷电划破雨丝。"
+    },
+    {
+        "id": "zelda11_beedle",
+        "cat": "npc",
+        "name": "行商人 特里",
+        "en": "Beedle",
+        "sub": "双子山驿站泥径 · 独角仙背篓与走方货郎",
+        "src": "zelda/11_beedle_realhuman.png",
+        "lens": "Canon EOS R5 · 50mm f/1.4 L",
+        "shutter": "1/500s · ISO 100",
+        "quote": "“哇！谢谢惠顾！特里随时为你提供最好的货物！”",
+        "desc": "黝黑干瘦中年货郎，深笑纹与晒斑，标志性锅盖头短发；背着粗竹藤与老麻布独角仙巨型背篓货架，挂满铁锅草药小瓶昆虫，驿站泥土小径充满人间烟火。"
+    },
+    {
+        "id": "zelda12_sidon",
+        "cat": "npc",
+        "name": "卓拉王子 希多",
+        "en": "Prince Sidon",
+        "sub": "卓拉领地大理石长桥 · 击胸点赞的英俊红鳞少年",
+        "src": "zelda/12_sidon_realhuman.png",
+        "lens": "Sony A7R5 · 85mm f/1.4 GM",
+        "shutter": "1/1000s · ISO 100",
+        "quote": "“你一定可以做到的！我相信你，我的朋友！”",
+        "desc": "两米高英俊红鳞青年王子，珍珠贝母光泽红白鳞片；标志性右手握拳击胸点赞，洁白阳光白牙与灿烂大笑，做旧纯铜雕花护甲，大理石螺旋桥与瀑布彩虹。"
+    },
+    {
+        "id": "zelda13_korok_forest",
+        "cat": "npc",
+        "name": "克洛格森林与伯库诺",
+        "en": "Korok Forest & Hestu",
+        "sub": "德库巨树脚下 · 摇晃沙锤的大树精与呀哈哈",
+        "src": "zelda/13_korok_forest_realhuman.png",
+        "lens": "Leica Q3 · 28mm f/1.7",
+        "shutter": "1/125s · ISO 400",
+        "quote": "“呀哈哈！你找到我啦！摇晃沙锤，扩展背包！”",
+        "desc": "真实树皮青苔绿叶覆盖的两米高树精伯库诺手摇木雕沙锤，环绕戴干燥阔叶面具的小呀哈哈；德库树脚下荧光幽灵蘑菇与丁达尔晨光光柱，定格漂浮孢子。"
+    },
+    {
+        "id": "zelda14_ancient_guardian",
+        "cat": "scene",
+        "name": "长满野花的古代守护者残骸",
+        "en": "Ancient Guardian in Flowers",
+        "sub": "废弃古教堂原野 · 斑驳铁锈与盛开的静谧之花",
+        "src": "zelda/14_ancient_guardian_realhuman.png",
+        "lens": "Canon EOS R5 · 85mm f/1.4 L",
+        "shutter": "1/800s · ISO 100",
+        "quote": "“硝烟已然散尽，唯有静谧之花在铁锈中绽放。”",
+        "desc": "数吨重古代机械八爪守护者残骸半陷泥土，红锈与深绿青苔缠绕爬山虎；中央顶盖裂缝静静盛开一朵娇嫩蓝白“静谧之花”，蜜蜂飞舞，草甸微风吹拂。"
+    },
+    {
+        "id": "zelda15_hateno_village",
+        "cat": "scene",
+        "name": "哈特诺村清晨风车与梯田",
+        "en": "Hateno Village Windmills",
+        "sub": "宁静田园晨光 · 原木石屋、转动风车与梯田",
+        "src": "zelda/15_hateno_village_realhuman.png",
+        "lens": "Nikon Z9 · 24-70mm f/2.8 S",
+        "shutter": "1/640s · ISO 100",
+        "quote": "“炊烟袅袅升起，海拉鲁的清晨如此恬静美好。”",
+        "desc": "翠绿泥土梯田菜园与老农夫浇水，原木石块双层温馨民房烟囱炊烟；山顶转动的巨型木制四叶风车，朝阳金光与薄雾水库，大画幅胶片质感田园纪实。"
+    },
+    {
+        "id": "zelda16_akkala_citadel",
+        "cat": "scene",
+        "name": "阿卡莱堡垒废墟与秋日红枫",
+        "en": "Akkala Citadel Ruins",
+        "sub": "险峻红叶高山 · 被能量轰穿的巍峨古石要塞",
+        "src": "zelda/16_akkala_citadel_realhuman.png",
+        "lens": "Canon EOS R5 · 24-70mm f/2.8 L",
+        "shutter": "1/1250s · ISO 200",
+        "quote": "“这堵坚不可摧的巨石防线，见证了最后的决死抗争。”",
+        "desc": "险峻山道碎石坡旅人背影与登山杖，漫天红枫翻滚；百米巨石要塞厚重城墙布满能量轰穿的焦黑豁口，猩红秋日灌木与阴冷深沉秋云，悲壮雄浑史诗感。"
+    },
+    {
+        "id": "zelda17_gerudo_bazaar",
+        "cat": "scene",
+        "name": "卡拉卡拉集市绿洲与商贩",
+        "en": "Kara Kara Bazaar Oasis",
+        "sub": "正午灼热沙丘 · 椰枣树环抱泉池与香料帐篷",
+        "src": "zelda/17_gerudo_bazaar_realhuman.png",
+        "lens": "Sony A7R5 · 50mm f/1.2 GM",
+        "shutter": "1/2000s · ISO 100",
+        "quote": "“来尝尝冰凉甜瓜吧，远道而来的旅人！”",
+        "desc": "灼热金色阳光下椰枣树环抱的蓝色绿洲泉池，红白条纹遮阳帐篷与编织草筐，冰冻甜瓜香料堆；波斯风轻纱格鲁德女商贩，沙丘地平线空气热浪抖动。"
+    },
+    {
+        "id": "zelda18_rito_village",
+        "cat": "scene",
+        "name": "利特村巨型图腾岩柱与夜灯",
+        "en": "Rito Village Rock Pinnacle",
+        "sub": "高山寒夜湖渊 · 盘旋木回廊与中空石柱暖光",
+        "src": "zelda/18_rito_village_realhuman.png",
+        "lens": "Leica M11 · 35mm f/1.4 Summilux",
+        "shutter": "10s · ISO 800",
+        "quote": "“在中空石柱的低鸣声中，村落静静拥抱群星。”",
+        "desc": "高山湖泊老旧木吊桥摇曳马灯，湖心深渊两百米高螺旋中空石柱巨岩；盘旋木回廊每扇窗户透出橘黄灯火，墨蓝无污染夜空璀璨银河繁星，长曝光夜景仙境。"
+    },
+    {
+        "id": "zelda19_thundra_plateau",
+        "cat": "scene",
+        "name": "雷鸣平原暴风雨与避雷旅人",
+        "en": "Thundra Plateau Lightning",
+        "sub": "永无止境黑夜风暴 · 蘑菇石柱遭雷击惨白瞬间",
+        "src": "zelda/19_thundra_plateau_realhuman.png",
+        "lens": "Nikon Z9 · 24-70mm f/2.8 S",
+        "shutter": "1/3200s · ISO 400",
+        "quote": "“天穹撕裂，雷神的愤怒在蘑菇石柱上咆哮。”",
+        "desc": "暴雨倾盆泥泞草甸疾跑的探险者，绝缘橡胶雨衣头盔与镜头飞溅水珠；数十米高古代蘑菇石柱顶端遭白紫巨大闪电精准劈中瞬间，电光惨白，极度惊险。"
+    },
+    {
+        "id": "zelda20_mount_lanayru",
+        "cat": "scene",
+        "name": "拉聂尔雪山之巅与冰霜巨龙",
+        "en": "Mount Lanayru & Frost Dragon",
+        "sub": "极寒暴风雪之巅 · 呼啸苍穹中的神兽聂尔龙",
+        "src": "zelda/20_mount_lanayru_realhuman.png",
+        "lens": "Sony A7R5 · 70-200mm f/2.8 GM",
+        "shutter": "1/1600s · ISO 200",
+        "quote": "“在世界的最高处，远古的蓝冰之神俯瞰众生。”",
+        "desc": "膝深积雪断崖边厚狼皮大衣登山客跪拜，口鼻白气升腾，覆冰古代女神残像；千米暴风雪中数百米幽蓝冰晶鳞片神兽冰霜巨龙聂尔龙盘旋飞掠，神圣孤寂。"
+    },
+    {
+        "id": "zelda21_lurelin_village",
+        "cat": "scene",
+        "name": "沃托里村热带海湾与渔民",
+        "en": "Lurelin Village Tropical Beach",
+        "sub": "金黄沙滩正午 · 炭火烤红鲷鱼与吊脚草屋",
+        "src": "zelda/21_lurelin_village_realhuman.png",
+        "lens": "Canon EOS R5 · 35mm f/1.4 L",
+        "shutter": "1/1000s · ISO 100",
+        "quote": "“海风拂过棕榈树，今日的烤鱼格外肥美。”",
+        "desc": "金黄沙滩青年渔民合力拉扯粗麻渔网，炭火架滋滋作响烤红鲷鱼；原木浅海礁石棕榈吊脚草屋，湛蓝海浪轻摇木船，椰林婆娑，热带自然光海景纪实。"
+    }
+]
+
+# Combined Games Object
+games_dict = {
+    "eldenring": {
+        "id": "eldenring",
+        "name": "艾尔登法环",
+        "tag": "ELDEN RING · 25 PLATES",
+        "heroBadge": "Fine-Art Curated Exhibition · The Lands Between",
+        "heroTitle": "ELDEN RING · 交界地实拍志",
+        "heroSub": "“以纯光学镜头与物理材质，重铸神明、英雄与漂泊者的血肉呼吸”",
+        "filmBrand": "35MM CONTACT SHEET · ELDEN RING REALITY",
+        "archiveTitle": "STUDIO ARCHIVE · 交界地实拍对照库",
+        "archiveSub": "Technical Archive & Visual Reconstruction",
+        "items": eldenring_items
+    },
+    "cyberpunk": {
+        "id": "cyberpunk",
+        "name": "赛博朋克 2077",
+        "tag": "CYBERPUNK 2077 · 21 PLATES",
+        "heroBadge": "Night City & Badlands Documentary Chronicles",
+        "heroTitle": "CYBERPUNK 2077 · 夜之城与恶土纪实",
+        "heroSub": "“在霓虹冷光、机油与细雨蒸腾中，定格义体与血肉共存的真实温热”",
+        "filmBrand": "35MM CONTACT SHEET · NIGHT CITY CHRONICLES",
+        "archiveTitle": "STUDIO ARCHIVE · 夜之城与恶土档案库",
+        "archiveSub": "Optical Cyberpunk & Mechanical Realism",
+        "items": cyberpunk_items
+    },
+    "zelda": {
+        "id": "zelda",
+        "name": "塞尔达传说：旷野之息",
+        "tag": "ZELDA: BOTW · 21 PLATES",
+        "heroBadge": "Hyrule Kingdom Field Expedition & Living Legend",
+        "heroTitle": "THE LEGEND OF ZELDA · 海拉鲁原野行纪",
+        "heroSub": "“穿过湿润晨雾与千年风蚀遗迹，记录少年英杰与孤独王女的旅途真容”",
+        "filmBrand": "35MM CONTACT SHEET · HYRULE VOYAGE",
+        "archiveTitle": "STUDIO ARCHIVE · 海拉鲁自然与英杰档案库",
+        "archiveSub": "Verdant Expedition & Ancient Relics",
+        "items": zelda_items
+    }
+}
+
+# Verify that all image paths in the dataset actually exist on disk
+all_paths = []
+for g_key, g_val in games_dict.items():
+    for item in g_val["items"]:
+        all_paths.append((g_key, item["name"], item["src"]))
+        if "orig" in item and item["orig"]:
+            all_paths.append((g_key, item["name"] + " (orig)", item["orig"]))
+
+missing = []
+for g_key, name, path in all_paths:
+    if not os.path.exists(path):
+        missing.append((g_key, name, path))
+
+if missing:
+    print(f"ERROR: {len(missing)} files missing!")
+    for m in missing:
+        print("  Missing:", m)
+    exit(1)
+
+print(f"SUCCESS: All {len(all_paths)} referenced paths confirmed on disk!")
+print(f"Total items -> Elden Ring: {len(eldenring_items)}, Cyberpunk: {len(cyberpunk_items)}, Zelda: {len(zelda_items)}")
+
+# Read the template from build_index.py
+with open("build_index.py") as f:
+    template_code = f.read()
+
+# Extract html_template string
+start_marker = 'html_template = """'
+end_marker = '"""'
+start_idx = template_code.find(start_marker) + len(start_marker)
+end_idx = template_code.find(end_marker, start_idx)
+html_tmpl = template_code[start_idx:end_idx]
+
+# Replace DATASETS_PLACEHOLDER
+games_json = json.dumps(games_dict, ensure_ascii=False, indent=2)
+final_html = html_tmpl.replace("DATASETS_PLACEHOLDER", games_json)
+
+# Write to index.html
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(final_html)
+
+print(f"Generated index.html successfully ({len(final_html)} bytes)!")
