@@ -220,107 +220,17 @@
       }
     }
 
-    /* ─── Prototype Stage Harness ─── */
+    /* ─── Stage Harness ─── */
     #stage {
       min-height: calc(100vh - 65px);
-      padding-bottom: 96px;
+      padding-bottom: 48px;
     }
 
-    /* ─── VERBATIM PICKER STYLES (from Emil Kowalski PICKER.md) ─── */
-    .proto-picker {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2147483647;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      padding: 4px;
-      border-radius: 999px;
-      background: rgba(10, 10, 10, 0.88);
-      -webkit-backdrop-filter: blur(14px) saturate(1.4);
-      backdrop-filter: blur(14px) saturate(1.4);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-        0 4px 16px rgba(0, 0, 0, 0.5);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 13px;
-      line-height: 1;
-      -webkit-font-smoothing: antialiased;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .proto-picker-highlight {
-      position: absolute;
-      top: 4px;
-      left: 0;
-      height: 28px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      will-change: transform;
-    }
-
-    .proto-picker[data-ready] .proto-picker-highlight {
-      transition:
-        transform 250ms cubic-bezier(0.23, 1, 0.32, 1),
-        width 250ms cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .proto-picker[data-ready] .proto-picker-highlight { transition: none; }
-    }
-
-    .proto-picker-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 28px;
-      padding: 0 12px;
-      border: 0;
-      border-radius: 999px;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.55);
-      font: inherit;
-      cursor: pointer;
-      transition: color 150ms ease-out;
-    }
-
-    .proto-picker-item:hover {
-      color: rgba(255, 255, 255, 0.85);
-    }
-
-    .proto-picker-item:active {
-      transform: scale(0.97);
-    }
-
-    .proto-picker-item:focus-visible {
-      outline: 2px solid rgba(255, 255, 255, 0.4);
-      outline-offset: 2px;
-    }
-
-    .proto-picker-item[data-active] {
-      color: #fff;
-    }
-
-    .proto-picker-divider {
-      width: 1px;
-      height: 16px;
-      margin: 0 4px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .proto-picker-replay {
-      padding: 0 10px;
-      font-size: 14px;
-    }
-
-    /* ─── VARIANT 1: EDITORIAL (MUSEUM EXHIBITION) ─── */
+    /* ─── EDITORIAL EXHIBITION ─── */
     .v-editorial {
       max-width: 1360px;
       margin: 0 auto;
-      padding: 48px 24px 90px;
+      padding: 48px 24px 64px;
       animation: fadeIn 220ms var(--ease-out);
     }
 
@@ -470,353 +380,6 @@
       padding-left: 12px;
       border-left: 1px solid var(--accent-primary);
       margin-top: 4px;
-    }
-
-    /* ─── VARIANT 2: FILMSTRIP (35MM CONTACT SHEET) ─── */
-    .v-filmstrip {
-      width: 100vw;
-      min-height: calc(100vh - 65px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: #050507;
-      padding: 36px 0 96px;
-      animation: fadeIn 220ms var(--ease-out);
-      overflow-x: hidden;
-    }
-
-    .v-filmstrip .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px 20px;
-      max-width: 1600px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .v-filmstrip .brand {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--accent-bright);
-      letter-spacing: 0.04em;
-    }
-
-    .v-filmstrip .hud-counter {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-    }
-
-    .v-filmstrip .strip-container {
-      display: flex;
-      gap: 24px;
-      padding: 16px 40px 24px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border-subtle) transparent;
-      scroll-behavior: smooth;
-    }
-
-    .v-filmstrip .strip-container::-webkit-scrollbar {
-      height: 5px;
-    }
-    .v-filmstrip .strip-container::-webkit-scrollbar-thumb {
-      background: var(--border-subtle);
-      border-radius: 999px;
-    }
-
-    .v-filmstrip .film-card {
-      flex: 0 0 clamp(380px, 46vw, 680px);
-      scroll-snap-align: center;
-      background: #0c0c10;
-      border-radius: 6px;
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-    }
-
-    .v-filmstrip .perforations {
-      height: 18px;
-      background-color: #08080a;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.18) 3px, transparent 3.5px);
-      background-size: 20px 18px;
-      background-position: center;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .v-filmstrip .perforations:last-child {
-      border-bottom: none;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .v-filmstrip .film-frame {
-      position: relative;
-      width: 100%;
-      height: clamp(380px, 52vh, 600px);
-      background: #040406;
-      overflow: hidden;
-      cursor: zoom-in;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-    }
-
-    .v-filmstrip .film-frame img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      border-radius: 2px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-    }
-
-    .v-filmstrip .film-title-row {
-      padding: 14px 18px 4px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-
-    .v-filmstrip .film-name {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .v-filmstrip .film-exp {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--accent-bright);
-    }
-
-    .v-filmstrip .film-exif {
-      padding: 0 18px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--accent-primary);
-      display: flex;
-      gap: 16px;
-    }
-
-    .v-filmstrip .film-desc {
-      padding: 8px 18px 16px;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ─── VARIANT 3: ARCHIVE (STUDIO INSPECTOR) ─── */
-    .v-archive {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 36px 24px 96px;
-      animation: fadeIn 220ms var(--ease-out);
-    }
-
-    .v-archive .archive-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 32px;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 18px;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .v-archive .archive-title {
-      font-family: var(--font-display);
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--accent-bright);
-    }
-
-    .v-archive .filter-group {
-      display: flex;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-    }
-
-    .v-archive .filter-btn {
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      cursor: pointer;
-      transition: all 150ms ease;
-    }
-
-    .v-archive .filter-btn.active {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      border-color: var(--accent-primary);
-    }
-
-    .v-archive .archive-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 24px;
-      align-items: start;
-    }
-
-    .v-archive .archive-card {
-      background: #0d0d12;
-      border-radius: 6px;
-      border: 1px solid var(--border-subtle);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 150ms ease;
-    }
-
-    .v-archive .archive-card:hover {
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .v-archive .compare-card-container {
-      display: flex;
-      flex-direction: column;
-      background: #050508;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .v-archive .compare-tabs {
-      display: flex;
-      background: #09090d;
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 6px 10px;
-      gap: 8px;
-    }
-
-    .v-archive .compare-tab {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      padding: 4px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 150ms ease;
-    }
-
-    .v-archive .compare-tab:hover {
-      color: #fff;
-    }
-
-    .v-archive .compare-tab.active {
-      background: #16161e;
-      color: var(--accent-bright);
-      border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .v-archive .compare-media-wrapper {
-      position: relative;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #030306;
-    }
-
-    .v-archive .compare-pane {
-      display: none;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      cursor: zoom-in;
-    }
-
-    .v-archive .compare-pane.active {
-      display: flex;
-    }
-
-    .v-archive .compare-pane img {
-      width: 100%;
-      height: auto;
-      max-height: 540px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .v-archive .single-img-container {
-      position: relative;
-      width: 100%;
-      background: #050508;
-      cursor: zoom-in;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .v-archive .single-img-container img {
-      width: 100%;
-      height: auto;
-      max-height: 540px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .v-archive .badge-overlay {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      padding: 4px 10px;
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid var(--border-subtle);
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: var(--accent-bright);
-      z-index: 4;
-    }
-
-    .v-archive .archive-card-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex-grow: 1;
-    }
-
-    .v-archive .archive-card-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .v-archive .archive-card-exif {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--accent-primary);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .v-archive .archive-card-desc {
-      font-size: 0.85rem;
-      color: #928b80;
-      line-height: 1.5;
     }
 
     /* ─── LIGHTBOX MODAL ─── */
@@ -1084,16 +647,6 @@
       </div>
     </div>
   </div>
-
-  <!-- THE PICKER (VERBATIM FROM Emil Kowalski's PICKER.md) -->
-  <nav class="proto-picker" aria-label="Prototype variants">
-    <span class="proto-picker-highlight" aria-hidden="true"></span>
-    <button class="proto-picker-item" data-active aria-current="true">Editorial</button>
-    <button class="proto-picker-item">Filmstrip</button>
-    <button class="proto-picker-item">Archive</button>
-    <span class="proto-picker-divider" aria-hidden="true"></span>
-    <button class="proto-picker-item proto-picker-replay" aria-label="Replay animation (R)">↻</button>
-  </nav>
 
   <script>
     /* ─── MULTI-GAME DATASET ─── */
@@ -2062,7 +1615,6 @@
 
     /* ─── ACTIVE STATE ─── */
     let currentGameKey = 'eldenring';
-    let currentVariant = 0;
 
     function getActiveGame() {
       return GAMES[currentGameKey] || GAMES.eldenring;
@@ -2101,132 +1653,6 @@
           </div>
         </div>
       `;
-    }
-
-    /* ─── VARIANT 2: FILMSTRIP ─── */
-    function renderFilmstrip() {
-      const g = getActiveGame();
-      return `
-        <div class="v-filmstrip">
-          <div class="top-bar">
-            <div class="brand">${g.filmBrand}</div>
-            <div class="hud-counter">Use ← → arrow keys to slide filmstrip</div>
-          </div>
-
-          <div class="strip-container" id="stripContainer">
-            ${g.items.map((item, idx) => `
-              <div class="film-card">
-                <div class="perforations"></div>
-                <div class="film-frame" onclick="openLightbox('${item.src}', '${item.thumb}')">
-                  <img src="${item.thumb}" data-full="${item.src}" alt="${item.name}" loading="${idx < 3 ? 'eager' : 'lazy'}" decoding="async">
-                </div>
-                <div class="film-title-row">
-                  <span class="film-name">${item.name}</span>
-                  <span class="film-exp">Exp ${String(idx + 1).padStart(2, '0')}/${g.items.length}</span>
-                </div>
-                <div class="film-exif">
-                  <span>${item.lens}</span>
-                  <span>${item.shutter}</span>
-                </div>
-                <p class="film-desc">${item.desc}</p>
-                <div class="perforations"></div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    /* ─── VARIANT 3: ARCHIVE ─── */
-    function renderArchive() {
-      const g = getActiveGame();
-      const hasNpc = g.items.some(i => i.cat === 'npc');
-      const hasBoss = g.items.some(i => i.cat === 'boss');
-      const hasScene = g.items.some(i => i.cat === 'scene');
-
-      return `
-        <div class="v-archive">
-          <div class="archive-header">
-            <div>
-              <div style="font-family:var(--font-mono); font-size:12px; color:var(--accent-primary); letter-spacing:0.04em; margin-bottom:4px;">${g.archiveSub}</div>
-              <h2 class="archive-title">${g.archiveTitle}</h2>
-            </div>
-            <div class="filter-group">
-              <button class="filter-btn active" onclick="filterArchive('all', this)">All (${g.items.length})</button>
-              ${hasNpc ? `<button class="filter-btn" onclick="filterArchive('npc', this)">Characters</button>` : ''}
-              ${hasBoss ? `<button class="filter-btn" onclick="filterArchive('boss', this)">Bosses / Warriors</button>` : ''}
-              ${hasScene ? `<button class="filter-btn" onclick="filterArchive('scene', this)">Landscapes</button>` : ''}
-            </div>
-          </div>
-
-          <div class="archive-grid" id="archiveGrid">
-            ${g.items.map((item, idx) => `
-              <div class="archive-card" data-cat="${item.cat}">
-                ${item.orig ? `
-                  <div class="compare-card-container">
-                    <div class="compare-tabs">
-                      <button class="compare-tab active" onclick="toggleCompareView(this, 'real')">纯相机实拍</button>
-                      <button class="compare-tab" onclick="toggleCompareView(this, 'orig')">游戏原画</button>
-                    </div>
-                    <div class="compare-media-wrapper">
-                      <div class="compare-pane pane-real active" onclick="openLightbox('${item.src}', '${item.thumb}')" title="点击放大查看实拍大图">
-                        <img src="${item.thumb}" data-full="${item.src}" alt="${item.name} 实拍" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
-                        <span class="badge-overlay">${item.lens}</span>
-                      </div>
-                      <div class="compare-pane pane-orig" onclick="openLightbox('${item.orig}', '${item.orig_thumb || item.orig}')" title="点击放大查看原画大图">
-                        <img src="${item.orig_thumb || item.orig}" alt="${item.name} 原画" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
-                        <span class="badge-overlay">游戏原画 / 截图</span>
-                      </div>
-                    </div>
-                  </div>
-                ` : `
-                  <div class="single-img-container" onclick="openLightbox('${item.src}', '${item.thumb}')" title="点击放大查看大图">
-                    <img src="${item.thumb}" data-full="${item.src}" alt="${item.name}" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
-                    <span class="badge-overlay">${item.lens}</span>
-                  </div>
-                `}
-                <div class="archive-card-body">
-                  <div class="archive-card-title">${item.name}</div>
-                  <div class="archive-card-exif">
-                    <span>${item.en}</span>
-                    <span>${item.lens}</span>
-                  </div>
-                  <p class="archive-card-desc">${item.desc}</p>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    /* ─── INTERACTION HELPERS ─── */
-    function toggleCompareView(btn, viewType) {
-      const container = btn.closest('.compare-card-container');
-      if (!container) return;
-      container.querySelectorAll('.compare-tab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      const paneReal = container.querySelector('.pane-real');
-      const paneOrig = container.querySelector('.pane-orig');
-      if (viewType === 'real') {
-        if (paneReal) paneReal.classList.add('active');
-        if (paneOrig) paneOrig.classList.remove('active');
-      } else {
-        if (paneReal) paneReal.classList.remove('active');
-        if (paneOrig) paneOrig.classList.add('active');
-      }
-    }
-
-    function filterArchive(cat, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.archive-card').forEach(card => {
-        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
     }
 
     function openLightbox(fullSrc, thumbSrc) {
@@ -2291,75 +1717,23 @@
       url.searchParams.set('game', gameKey);
       history.replaceState(null, '', url);
 
-      // Re-mount current variant
-      mount(currentVariant);
+      // Re-mount Editorial view
+      mount();
     }
 
-    /* ─── PROTOTYPE HARNESS WIRING (from Emil Kowalski PICKER.md) ─── */
-    const variants = [renderEditorial, renderFilmstrip, renderArchive];
+    /* ─── STAGE MOUNTING & KEYBOARD SHORTCUTS ─── */
     const stage = document.getElementById('stage');
-    const picker = document.querySelector('.proto-picker');
-    const highlight = picker.querySelector('.proto-picker-highlight');
-    const items = [...picker.querySelectorAll('.proto-picker-item:not(.proto-picker-replay)')];
-    const replay = picker.querySelector('.proto-picker-replay');
 
-    function moveHighlight() {
-      const el = items[currentVariant];
-      if (!el) return;
-      highlight.style.width = el.offsetWidth + 'px';
-      highlight.style.transform = `translateX(${el.offsetLeft}px)`;
+    function mount() {
+      stage.innerHTML = renderEditorial();
     }
 
-    function mount(i) {
-      stage.innerHTML = '';
-      requestAnimationFrame(() => { stage.innerHTML = variants[i](); });
-    }
-
-    function setActive(i) {
-      if (i < 0 || i >= variants.length) return;
-      currentVariant = i;
-      items.forEach((el, j) => {
-        el.toggleAttribute('data-active', j === i);
-        if (j === i) el.setAttribute('aria-current', 'true');
-        else el.removeAttribute('aria-current');
-      });
-      moveHighlight();
-      const url = new URL(location);
-      url.searchParams.set('v', i + 1);
-      url.searchParams.set('game', currentGameKey);
-      history.replaceState(null, '', url);
-      mount(i);
-    }
-
-    items.forEach((el, i) => el.addEventListener('click', () => setActive(i)));
-    replay?.addEventListener('click', () => mount(currentVariant));
-    window.addEventListener('resize', moveHighlight);
-
-    // Keyboard bindings
+    // Keyboard bindings (G for Game switch, Escape for modals)
     document.addEventListener('keydown', (e) => {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       
-      const num = parseInt(e.key, 10);
-      if (num >= 1 && num <= variants.length) {
-        setActive(num - 1);
-      } else if (e.key === 'ArrowRight') {
-        const strip = document.getElementById('stripContainer');
-        if (strip && currentVariant === 1) {
-          strip.scrollBy({ left: 400, behavior: 'smooth' });
-        } else {
-          setActive((currentVariant + 1) % variants.length);
-        }
-      } else if (e.key === 'ArrowLeft') {
-        const strip = document.getElementById('stripContainer');
-        if (strip && currentVariant === 1) {
-          strip.scrollBy({ left: -400, behavior: 'smooth' });
-        } else {
-          setActive((currentVariant - 1 + variants.length) % variants.length);
-        }
-      } else if (e.key === 'r' || e.key === 'R') {
-        mount(currentVariant);
-      } else if (e.key === 'g' || e.key === 'G') {
+      if (e.key === 'g' || e.key === 'G') {
         const gameKeys = Object.keys(GAMES);
         const nextIdx = (gameKeys.indexOf(currentGameKey) + 1) % gameKeys.length;
         switchGame(gameKeys[nextIdx]);
@@ -2381,10 +1755,7 @@
       document.getElementById('currentTag').textContent = GAMES[initialGame].tag;
     }
 
-    const initialVariant = (parseInt(initialParams.get('v'), 10) || 1) - 1;
-    setActive(initialVariant);
-
-    requestAnimationFrame(() => requestAnimationFrame(() => picker.setAttribute('data-ready', '')));
+    mount();
   </script>
 </body>
 </html>
