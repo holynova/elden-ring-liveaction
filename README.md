@@ -24,6 +24,15 @@
 - **Variant 2: Filmstrip (35mm胶片)** — 电影暗房放映机体验，胶卷齿孔、EXP编号、横向无尽轮播与胶片快门感。
 - **Variant 3: Archive (密室档案)** — 密集工作台档案，支持分类筛选、鼠标悬浮左右滑动的 **Before / After (原画 vs 纯相机实拍)** 对比滑块与高精度光学放大镜。
 
+### ⚡ 图片优化与 Impeccable 设计质感 (Performance & Anti-AI-Slop)
+- **带宽暴降 94.1% (159.95 MB ➔ 9.44 MB)**：全站 77 幅图像（含原画对比图）全部生成 720px 高保真轻量化缩略图（`thumbs/`），页面渲染优先加载轻量图。
+- **原生懒加载与渐进式解码**：全站 `<img loading="lazy" decoding="async">`，首屏前 2 张图片配置 `fetchpriority="high"` 确保极致 LCP；Lightbox 点击时瞬间载入缩略图并在后台完成大图无感平滑切换。
+- **Impeccable 质量认证，去除 AI Slop**：
+  - 彻底铲除常见的 AI UI 劣质套路：消除所有零偏移霓虹外发光（`box-shadow: 0 0 ...`），改为纯净的方向性物理漫反射投影与极细边框；
+  - 消除滥用大写（All-caps body）与过宽字距（Wide tracking），文字回归自然可读排印；
+  - 杜绝图片悬停生硬放大（Image hover scale），保持纯粹宁静的策展艺术品观感；
+  - Lightbox 彻底杜绝空 `src` 造成的图片解析破损（Broken image）。
+
 ---
 
 ## 📸 纯光学相机实拍与“活人呼吸感”作图方法论总结
@@ -79,15 +88,14 @@
 ```text
 .
 ├── index.html                   # 交互式原型页面 (Game Universe Selector + 3 Prototypes)
-├── generate_full_index.py       # 全站 67 幅画作元数据与静态页面组装流水线
-├── batch_expand_all.py          # 赛博朋克2077与塞尔达传说 34 幅高画质新图自动生成流水线
-├── cyberpunk/                   # 赛博朋克2077 纯单反纪实高清原图 (21张，单张2~2.5MB)
-│   ├── 01_judy_realhuman.png ~ 21_nightcity_skyline_realhuman.png
-├── zelda/                       # 塞尔达传说：旷野之息 纯单反原野纪实原图 (21张，单张2.2~3.1MB)
-│   ├── 01_zelda_realhuman.png ~ 21_lurelin_village_realhuman.png
-├── originals/                   # 官方原画与截图参考 (25组对比数据源)
-├── v2_realhuman/                # 艾尔登法环 5 张核心重构大图
-└── v2_20_gallery/               # 艾尔登法环 20 张纯相机实拍原图
+├── games_data.py                # 核心画作与镜头元数据字典 (67幅作品与镜头参数)
+├── generate_full_index.py       # 静态页面自动化构建与注入流水线
+├── generate_thumbnails.py       # macOS sips 硬件加速缩略图批量生产流水线
+├── cyberpunk/                   # 赛博朋克2077 纯单反纪实高清原图 (21张) & thumbs/ 缩略图
+├── zelda/                       # 塞尔达传说：旷野之息 原野纪实高清原图 (21张) & thumbs/ 缩略图
+├── originals/                   # 官方原画与截图参考 (10张) & thumbs/ 缩略图
+├── v2_realhuman/                # 艾尔登法环 5 张核心大图 & thumbs/ 缩略图
+└── v2_20_gallery/               # 艾尔登法环 20 张纯相机实拍原图 & thumbs/ 缩略图
 ```
 
 ---

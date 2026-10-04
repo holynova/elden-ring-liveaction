@@ -3,3 +3,17 @@ __pycache__/
 *.pyc
 .system_generated/
 scratch/
+
+# Agent harnesses
+.agent/
+.agents/
+.claude/
+.codex/
+.gemini/
+.hermes/
+.kiro/
+.opencode/
+.pi/
+.qoder/
+.rovodev/
+.vibe/
