@@ -365,6 +365,7 @@ html_template = """<!DOCTYPE html>
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 48px 32px;
+      align-items: start;
     }
 
     .v-editorial .exhibit-item {
@@ -379,7 +380,7 @@ html_template = """<!DOCTYPE html>
       display: grid;
       grid-template-columns: 7fr 5fr;
       gap: 36px;
-      align-items: center;
+      align-items: start;
       padding-bottom: 24px;
       border-bottom: 1px solid var(--border-subtle);
     }
@@ -392,11 +393,13 @@ html_template = """<!DOCTYPE html>
       position: relative;
       overflow: hidden;
       border-radius: 6px;
-      background: #000;
+      background: #060608;
       border: 1px solid var(--border-subtle);
       cursor: zoom-in;
-      aspect-ratio: 16 / 11;
       transition: border-color 200ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .v-editorial .exhibit-media:hover {
@@ -405,8 +408,9 @@ html_template = """<!DOCTYPE html>
 
     .v-editorial .exhibit-media img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-height: 85vh;
+      object-fit: contain;
       display: block;
     }
 
@@ -532,7 +536,7 @@ html_template = """<!DOCTYPE html>
     }
 
     .v-filmstrip .film-card {
-      flex: 0 0 clamp(360px, 42vw, 640px);
+      flex: 0 0 clamp(380px, 46vw, 680px);
       scroll-snap-align: center;
       background: #0c0c10;
       border-radius: 6px;
@@ -560,17 +564,25 @@ html_template = """<!DOCTYPE html>
     .v-filmstrip .film-frame {
       position: relative;
       width: 100%;
-      height: clamp(340px, 44vh, 480px);
-      background: #000;
+      height: clamp(380px, 52vh, 600px);
+      background: #040406;
       overflow: hidden;
       cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
     }
 
     .v-filmstrip .film-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
+      border-radius: 2px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
     }
 
     .v-filmstrip .film-title-row {
@@ -665,6 +677,7 @@ html_template = """<!DOCTYPE html>
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
       gap: 24px;
+      align-items: start;
     }
 
     .v-archive .archive-card {
@@ -681,72 +694,90 @@ html_template = """<!DOCTYPE html>
       border-color: rgba(255, 255, 255, 0.22);
     }
 
-    .v-archive .split-slider-container {
+    .v-archive .compare-card-container {
+      display: flex;
+      flex-direction: column;
+      background: #050508;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .v-archive .compare-tabs {
+      display: flex;
+      background: #09090d;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 6px 10px;
+      gap: 8px;
+    }
+
+    .v-archive .compare-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+
+    .v-archive .compare-tab:hover {
+      color: #fff;
+    }
+
+    .v-archive .compare-tab.active {
+      background: #16161e;
+      color: var(--accent-bright);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .v-archive .compare-media-wrapper {
       position: relative;
       width: 100%;
-      height: 280px;
-      overflow: hidden;
-      background: #000;
-      user-select: none;
-      cursor: ew-resize;
-    }
-
-    .v-archive .split-slider-container img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .v-archive .split-img-after {
-      z-index: 2;
-      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-    }
-
-    .v-archive .split-handle {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 2px;
-      background: var(--accent-bright);
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .v-archive .split-handle::after {
-      content: '↔';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-      height: 24px;
-      background: #0a0a0c;
-      border: 1px solid var(--accent-primary);
-      border-radius: 50%;
-      color: var(--accent-bright);
-      font-size: 11.5px;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #030306;
+    }
+
+    .v-archive .compare-pane {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: zoom-in;
+    }
+
+    .v-archive .compare-pane.active {
+      display: flex;
+    }
+
+    .v-archive .compare-pane img {
+      width: 100%;
+      height: auto;
+      max-height: 540px;
+      object-fit: contain;
+      display: block;
     }
 
     .v-archive .single-img-container {
       position: relative;
       width: 100%;
-      height: 280px;
-      overflow: hidden;
-      background: #000;
+      background: #050508;
       cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .v-archive .single-img-container img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-height: 540px;
+      object-fit: contain;
       display: block;
     }
 
@@ -1175,13 +1206,24 @@ html_template = """<!DOCTYPE html>
             ${g.items.map((item, idx) => `
               <div class="archive-card" data-cat="${item.cat}">
                 ${item.orig ? `
-                  <div class="split-slider-container" onmousemove="handleSplitHover(event, this)" onclick="openLightbox('${item.src}', '${item.thumb}')" title="左右移动鼠标查看原画 vs 纯相机实拍对比">
-                    <img src="${item.orig_thumb || item.orig}" alt="${item.name} 原画" class="split-img-before" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
-                    <img src="${item.thumb}" alt="${item.name} 实拍" class="split-img-after" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
-                    <div class="split-handle"></div>
+                  <div class="compare-card-container">
+                    <div class="compare-tabs">
+                      <button class="compare-tab active" onclick="toggleCompareView(this, 'real')">📸 纯相机实拍</button>
+                      <button class="compare-tab" onclick="toggleCompareView(this, 'orig')">🎮 游戏原画</button>
+                    </div>
+                    <div class="compare-media-wrapper">
+                      <div class="compare-pane pane-real active" onclick="openLightbox('${item.src}', '${item.thumb}')" title="点击放大查看实拍大图">
+                        <img src="${item.thumb}" data-full="${item.src}" alt="${item.name} 实拍" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
+                        <span class="badge-overlay">${item.lens}</span>
+                      </div>
+                      <div class="compare-pane pane-orig" onclick="openLightbox('${item.orig}', '${item.orig_thumb || item.orig}')" title="点击放大查看原画大图">
+                        <img src="${item.orig_thumb || item.orig}" alt="${item.name} 原画" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
+                        <span class="badge-overlay">游戏原画 / 截图</span>
+                      </div>
+                    </div>
                   </div>
                 ` : `
-                  <div class="single-img-container" onclick="openLightbox('${item.src}', '${item.thumb}')">
+                  <div class="single-img-container" onclick="openLightbox('${item.src}', '${item.thumb}')" title="点击放大查看大图">
                     <img src="${item.thumb}" data-full="${item.src}" alt="${item.name}" loading="${idx < 4 ? 'eager' : 'lazy'}" decoding="async">
                     <span class="badge-overlay">${item.lens}</span>
                   </div>
@@ -1202,14 +1244,20 @@ html_template = """<!DOCTYPE html>
     }
 
     /* ─── INTERACTION HELPERS ─── */
-    function handleSplitHover(e, container) {
-      const rect = container.getBoundingClientRect();
-      const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-      const pct = (x / rect.width) * 100;
-      const afterImg = container.querySelector('.split-img-after');
-      const handle = container.querySelector('.split-handle');
-      if (afterImg) afterImg.style.clipPath = `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`;
-      if (handle) handle.style.left = `${pct}%`;
+    function toggleCompareView(btn, viewType) {
+      const container = btn.closest('.compare-card-container');
+      if (!container) return;
+      container.querySelectorAll('.compare-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const paneReal = container.querySelector('.pane-real');
+      const paneOrig = container.querySelector('.pane-orig');
+      if (viewType === 'real') {
+        if (paneReal) paneReal.classList.add('active');
+        if (paneOrig) paneOrig.classList.remove('active');
+      } else {
+        if (paneReal) paneReal.classList.remove('active');
+        if (paneOrig) paneOrig.classList.add('active');
+      }
     }
 
     function filterArchive(cat, btn) {
