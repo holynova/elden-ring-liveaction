@@ -993,22 +993,22 @@ html_template = """<!DOCTYPE html>
     <!-- GAME UNIVERSE SWITCHER -->
     <nav class="game-selector" aria-label="Game Universe Selector">
       <button class="game-tab active" data-game="eldenring" onclick="switchGame('eldenring')">
-        <span>⚔️ 艾尔登法环</span>
+        <span>艾尔登法环</span>
         <span class="tab-count">25</span>
       </button>
       <button class="game-tab" data-game="cyberpunk" onclick="switchGame('cyberpunk')">
-        <span>🦾 赛博朋克 2077</span>
+        <span>赛博朋克 2077</span>
         <span class="tab-count">21</span>
       </button>
       <button class="game-tab" data-game="zelda" onclick="switchGame('zelda')">
-        <span>🗡️ 塞尔达传说：旷野之息</span>
+        <span>塞尔达传说：旷野之息</span>
         <span class="tab-count">21</span>
       </button>
     </nav>
 
     <div class="nav-actions">
       <button class="btn-methodology" onclick="openMethodology()">
-        <span>📸 摄影法典 (Methodology)</span>
+        <span>摄影法典 (Methodology)</span>
       </button>
       <a class="nav-github" href="https://github.com/holynova/elden-ring-liveaction" target="_blank" rel="noopener">
         <span>GitHub ↗</span>
@@ -1208,8 +1208,8 @@ html_template = """<!DOCTYPE html>
                 ${item.orig ? `
                   <div class="compare-card-container">
                     <div class="compare-tabs">
-                      <button class="compare-tab active" onclick="toggleCompareView(this, 'real')">📸 纯相机实拍</button>
-                      <button class="compare-tab" onclick="toggleCompareView(this, 'orig')">🎮 游戏原画</button>
+                      <button class="compare-tab active" onclick="toggleCompareView(this, 'real')">纯相机实拍</button>
+                      <button class="compare-tab" onclick="toggleCompareView(this, 'orig')">游戏原画</button>
                     </div>
                     <div class="compare-media-wrapper">
                       <div class="compare-pane pane-real active" onclick="openLightbox('${item.src}', '${item.thumb}')" title="点击放大查看实拍大图">
