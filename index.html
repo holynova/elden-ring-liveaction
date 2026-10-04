@@ -399,22 +399,128 @@
     .lightbox-modal.active {
       display: flex;
     }
+    #lightboxMedia {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 90vw;
+      max-height: 84vh;
+    }
     .lightbox-modal img {
-      max-width: 92vw;
-      max-height: 90vh;
+      max-width: 90vw;
+      max-height: 84vh;
       border-radius: 4px;
       border: 1px solid var(--border-subtle);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85);
       object-fit: contain;
+      user-select: none;
+      transition: opacity 150ms ease;
     }
     .lightbox-close {
       position: absolute;
-      top: 24px;
-      right: 32px;
+      top: 20px;
+      right: 28px;
+      background: rgba(20, 20, 26, 0.75);
+      border: 1px solid var(--border-subtle);
       color: #fff;
-      font-size: 32px;
+      font-size: 26px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 180ms ease;
+      z-index: 20;
+    }
+    .lightbox-close:hover {
+      background: rgba(40, 40, 50, 0.9);
+      border-color: rgba(255, 255, 255, 0.28);
+      color: var(--accent-bright);
+    }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(18, 18, 24, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 28px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 180ms ease;
       user-select: none;
+      z-index: 20;
+    }
+    .lightbox-nav:hover {
+      background: rgba(36, 36, 48, 0.95);
+      border-color: rgba(255, 255, 255, 0.32);
+      color: var(--accent-bright);
+      transform: translateY(-50%) scale(1.05);
+    }
+    .lightbox-prev {
+      left: 28px;
+      padding-right: 2px;
+    }
+    .lightbox-next {
+      right: 28px;
+      padding-left: 2px;
+    }
+    .lightbox-hud {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(12, 12, 16, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 7px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      user-select: none;
+      z-index: 20;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    }
+    .lightbox-counter {
+      color: var(--accent-bright);
+      font-weight: 500;
+    }
+    .lightbox-name {
+      color: #fff;
+      font-family: var(--font-sans);
+      font-weight: 500;
+    }
+    .lightbox-meta {
+      color: var(--accent-primary);
+    }
+    @media (max-width: 768px) {
+      .lightbox-nav {
+        width: 42px;
+        height: 42px;
+        font-size: 22px;
+      }
+      .lightbox-prev { left: 12px; }
+      .lightbox-next { right: 12px; }
+      .lightbox-meta { display: none; }
+      .lightbox-hud {
+        bottom: 16px;
+        padding: 5px 16px;
+        gap: 10px;
+        font-size: 11.5px;
+      }
     }
 
     /* ─── METHODOLOGY MODAL ─── */
@@ -578,10 +684,13 @@
   <!-- PROTOTYPE STAGE -->
   <main id="stage"></main>
 
-  <!-- LIGHTBOX MODAL (Dynamically injected image) -->
-  <div class="lightbox-modal" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close">&times;</span>
+  <!-- LIGHTBOX MODAL (Interactive Plate Viewer with Left/Right Navigation) -->
+  <div class="lightbox-modal" id="lightbox" onclick="handleLightboxBackdrop(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close details">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="prevLightboxImage(event)" aria-label="Previous plate">‹</button>
     <div id="lightboxMedia"></div>
+    <button class="lightbox-nav lightbox-next" onclick="nextLightboxImage(event)" aria-label="Next plate">›</button>
+    <div class="lightbox-hud" id="lightboxHud"></div>
   </div>
 
   <!-- METHODOLOGY MODAL -->
@@ -1634,7 +1743,7 @@
           <div class="exhibit-grid">
             ${g.items.map((item, idx) => `
               <article class="exhibit-item">
-                <div class="exhibit-media" onclick="openLightbox('${item.src}', '${item.thumb}')">
+                <div class="exhibit-media" onclick="openLightbox(${idx})">
                   <img src="${item.thumb}" data-full="${item.src}" alt="${item.name}" loading="${idx < 2 ? 'eager' : 'lazy'}" decoding="async" ${idx < 2 ? 'fetchpriority="high"' : ''}>
                   <span class="exhibit-plate">${item.lens}</span>
                 </div>
@@ -1655,35 +1764,85 @@
       `;
     }
 
-    function openLightbox(fullSrc, thumbSrc) {
+    let currentLightboxIndex = -1;
+
+    function openLightbox(idx) {
+      const g = getActiveGame();
+      if (!g || !g.items || idx < 0 || idx >= g.items.length) return;
+      currentLightboxIndex = idx;
+      const item = g.items[idx];
       const lb = document.getElementById('lightbox');
       const media = document.getElementById('lightboxMedia');
+      const hud = document.getElementById('lightboxHud');
       if (!lb || !media) return;
-      media.innerHTML = `<img id="lightboxImg" alt="Full exhibition plate" src="${thumbSrc || fullSrc}">`;
+
+      // 1. Immediately render thumbnail for zero-latency feedback
+      media.innerHTML = `<img id="lightboxImg" alt="${item.name}" src="${item.thumb}">`;
+
+      // 2. Render HUD info
+      if (hud) {
+        hud.innerHTML = `
+          <span class="lightbox-counter">Plate ${String(idx + 1).padStart(2, '0')} / ${g.items.length}</span>
+          <span class="lightbox-name">${item.name}</span>
+          <span class="lightbox-meta">${item.lens} · ${item.shutter}</span>
+        `;
+      }
+
       lb.classList.add('active');
-      
+
+      // 3. Asynchronously load high-res image and smoothly swap
       const fullImg = new Image();
-      fullImg.src = fullSrc;
+      fullImg.src = item.src;
       if (fullImg.decode) {
         fullImg.decode().then(() => {
           const activeImg = document.getElementById('lightboxImg');
-          if (activeImg && lb.classList.contains('active')) {
-            activeImg.src = fullSrc;
+          if (activeImg && lb.classList.contains('active') && currentLightboxIndex === idx) {
+            activeImg.src = item.src;
           }
         }).catch(() => {});
       } else {
         fullImg.onload = () => {
           const activeImg = document.getElementById('lightboxImg');
-          if (activeImg) activeImg.src = fullSrc;
+          if (activeImg && currentLightboxIndex === idx) activeImg.src = item.src;
         };
       }
+
+      // 4. Preload next and previous thumbnails
+      const nextIdx = (idx + 1) % g.items.length;
+      const prevIdx = (idx - 1 + g.items.length) % g.items.length;
+      new Image().src = g.items[nextIdx].thumb;
+      new Image().src = g.items[prevIdx].thumb;
     }
 
-    function closeLightbox() {
+    function prevLightboxImage(e) {
+      if (e) e.stopPropagation();
+      const g = getActiveGame();
+      if (!g || !g.items.length) return;
+      const prevIdx = (currentLightboxIndex - 1 + g.items.length) % g.items.length;
+      openLightbox(prevIdx);
+    }
+
+    function nextLightboxImage(e) {
+      if (e) e.stopPropagation();
+      const g = getActiveGame();
+      if (!g || !g.items.length) return;
+      const nextIdx = (currentLightboxIndex + 1) % g.items.length;
+      openLightbox(nextIdx);
+    }
+
+    function closeLightbox(e) {
+      if (e) e.stopPropagation();
       const lb = document.getElementById('lightbox');
       if (lb) lb.classList.remove('active');
       const media = document.getElementById('lightboxMedia');
       if (media) media.innerHTML = '';
+      currentLightboxIndex = -1;
+    }
+
+    function handleLightboxBackdrop(e) {
+      if (e.target.id === 'lightbox' || e.target.id === 'lightboxMedia') {
+        closeLightbox(e);
+      }
     }
 
     function openMethodology() {
@@ -1728,20 +1887,53 @@
       stage.innerHTML = renderEditorial();
     }
 
-    // Keyboard bindings (G for Game switch, Escape for modals)
+    // Keyboard bindings (Left/Right to flip plates, G for Game switch, Escape to close)
     document.addEventListener('keydown', (e) => {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       
+      const lb = document.getElementById('lightbox');
+      const isLbActive = lb && lb.classList.contains('active');
+
+      if (isLbActive) {
+        if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+          prevLightboxImage(e);
+        } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+          nextLightboxImage(e);
+        } else if (e.key === 'Escape') {
+          closeLightbox(e);
+        }
+        return;
+      }
+
       if (e.key === 'g' || e.key === 'G') {
         const gameKeys = Object.keys(GAMES);
         const nextIdx = (gameKeys.indexOf(currentGameKey) + 1) % gameKeys.length;
         switchGame(gameKeys[nextIdx]);
       } else if (e.key === 'Escape') {
-        closeLightbox();
         closeMethodology();
       }
     });
+
+    // Touch swipe support on lightbox
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const lbEl = document.getElementById('lightbox');
+    if (lbEl) {
+      lbEl.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+      }, { passive: true });
+
+      lbEl.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx > 0) prevLightboxImage();
+          else nextLightboxImage();
+        }
+      }, { passive: true });
+    }
 
     // Initial load from URL search params
     const initialParams = new URLSearchParams(location.search);
