@@ -11,7 +11,7 @@ A photography-style AI image gallery reimagining Elden Ring, Cyberpunk 2077 and 
 ## 可以做什么
 
 - 切换游戏世界，在画册与灯箱中浏览图像。
-- 查看镜头风格、提示词与原图对照。
+- 查看镜头参数与作品说明。
 
 ## 三个游戏世界
 

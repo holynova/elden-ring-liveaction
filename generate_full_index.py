@@ -7,20 +7,24 @@ html_template = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PHOTO-REAL VIRTUALITY · 纯光学相机实拍与活人感摄影典藏</title>
+  <title>游戏写实影像画册 — PHOTO-REAL VIRTUALITY</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     /* ─── Global Reset & Design Tokens ─── */
     :root {
-      --bg-black: #070709;
-      --bg-surface: #0e0e12;
-      --bg-elevated: #15151b;
+      --bg-black: #0c0a09;
+      --bg-surface: #141210;
+      --bg-elevated: #1c1917;
       --text-main: #ece7de;
       --text-muted: #a39c90;
       --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-card: #1f1f26;
+      --border-card: #292524;
+      --fs-s: 12px;
+      --fs-m: 15px;
+      --fs-l: 24px;
+      --fs-xl: clamp(2rem, 4.5vw, 3.4rem);
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       
       --font-serif: 'Playfair Display', Georgia, Cambria, serif;
@@ -83,7 +87,7 @@ html_template = """<!DOCTYPE html>
       left: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(7, 7, 9, 0.92);
+      background: rgba(12, 10, 9, 0.92);
       -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-subtle);
@@ -101,15 +105,15 @@ html_template = """<!DOCTYPE html>
     }
 
     .brand-logo {
-      font-family: var(--font-mono);
-      font-size: 13px;
+      font-family: var(--font-sans);
+      font-size: var(--fs-s);
       font-weight: 500;
       letter-spacing: 0.04em;
       color: #fff;
     }
 
     .brand-tag {
-      font-size: 11.5px;
+      font-size: var(--fs-s);
       padding: 3px 8px;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.06);
@@ -123,7 +127,7 @@ html_template = """<!DOCTYPE html>
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(18, 18, 24, 0.8);
+      background: rgba(28, 25, 23, 0.8);
       padding: 4px;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
@@ -139,7 +143,7 @@ html_template = """<!DOCTYPE html>
       background: transparent;
       color: var(--text-muted);
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: var(--fs-m);
       font-weight: 500;
       cursor: pointer;
       transition: color 150ms ease, background 150ms ease, border-color 150ms ease;
@@ -159,7 +163,7 @@ html_template = """<!DOCTYPE html>
 
     .game-tab .tab-count {
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: var(--fs-s);
       padding: 1px 6px;
       border-radius: 999px;
       background: rgba(0, 0, 0, 0.35);
@@ -182,7 +186,7 @@ html_template = """<!DOCTYPE html>
       border: 1px solid var(--border-subtle);
       color: var(--accent-bright);
       font-family: var(--font-sans);
-      font-size: 12px;
+      font-size: var(--fs-s);
       font-weight: 500;
       cursor: pointer;
       transition: all 160ms ease;
@@ -197,8 +201,8 @@ html_template = """<!DOCTYPE html>
     .nav-github {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 12px;
-      font-family: var(--font-mono);
+      font-size: var(--fs-s);
+      font-family: var(--font-sans);
       transition: color 150ms ease;
     }
 
@@ -246,7 +250,7 @@ html_template = """<!DOCTYPE html>
 
     .v-editorial .hero-title {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      font-size: var(--fs-xl);
       font-weight: 700;
       color: var(--accent-bright);
       line-height: 1.2;
@@ -255,12 +259,17 @@ html_template = """<!DOCTYPE html>
 
     .v-editorial .hero-sub {
       font-family: var(--font-serif);
-      font-style: italic;
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-size: var(--fs-m);
       color: var(--text-muted);
       max-width: 740px;
       margin: 0 auto;
       line-height: 1.6;
+    }
+
+    .v-editorial .hero-hint {
+      font-size: var(--fs-s);
+      color: var(--text-muted);
+      margin-top: 16px;
     }
 
     .v-editorial .hero-divider {
@@ -303,7 +312,7 @@ html_template = """<!DOCTYPE html>
       position: relative;
       overflow: hidden;
       border-radius: 6px;
-      background: #060608;
+      background: #0c0a09;
       border: 1px solid var(--border-subtle);
       cursor: zoom-in;
       transition: border-color 200ms ease;
@@ -332,7 +341,7 @@ html_template = """<!DOCTYPE html>
       border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 4px 10px;
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: var(--fs-s);
       color: var(--accent-bright);
       border-radius: 4px;
     }
@@ -344,15 +353,15 @@ html_template = """<!DOCTYPE html>
     }
 
     .v-editorial .exhibit-num {
-      font-family: var(--font-mono);
-      font-size: 12px;
+      font-family: var(--font-sans);
+      font-size: var(--fs-s);
       color: var(--accent-primary);
       letter-spacing: 0.02em;
     }
 
     .v-editorial .exhibit-title {
       font-family: var(--font-serif);
-      font-size: 1.55rem;
+      font-size: var(--fs-l);
       font-weight: 600;
       color: #fff;
       line-height: 1.25;
@@ -361,9 +370,10 @@ html_template = """<!DOCTYPE html>
     .v-editorial .exhibit-meta-line {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 12px;
+      font-family: var(--font-sans);
+      font-size: var(--fs-s);
       color: var(--text-muted);
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
@@ -371,19 +381,34 @@ html_template = """<!DOCTYPE html>
     }
 
     .v-editorial .exhibit-desc {
-      font-size: 0.92rem;
+      font-size: var(--fs-m);
       color: #b0a99c;
       line-height: 1.7;
     }
 
+    .meta-shutter {
+      font-family: var(--font-mono);
+    }
+
     .v-editorial .exhibit-quote {
       font-family: var(--font-serif);
-      font-style: italic;
       color: var(--accent-bright);
-      font-size: 0.95rem;
+      font-size: var(--fs-m);
       padding-left: 12px;
       border-left: 1px solid var(--accent-primary);
       margin-top: 4px;
+    }
+
+    /* ─── SITE FOOTER ─── */
+    .site-footer {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 24px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: var(--fs-s);
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.7;
     }
 
     /* ─── LIGHTBOX MODAL ─── */
@@ -424,10 +449,10 @@ html_template = """<!DOCTYPE html>
       position: absolute;
       top: 20px;
       right: 28px;
-      background: rgba(20, 20, 26, 0.75);
+      background: rgba(28, 25, 23, 0.75);
       border: 1px solid var(--border-subtle);
       color: #fff;
-      font-size: 26px;
+      font-size: var(--fs-l);
       width: 44px;
       height: 44px;
       border-radius: 50%;
@@ -439,7 +464,7 @@ html_template = """<!DOCTYPE html>
       z-index: 20;
     }
     .lightbox-close:hover {
-      background: rgba(40, 40, 50, 0.9);
+      background: rgba(41, 37, 36, 0.9);
       border-color: rgba(255, 255, 255, 0.28);
       color: var(--accent-bright);
     }
@@ -450,10 +475,10 @@ html_template = """<!DOCTYPE html>
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      background: rgba(18, 18, 24, 0.82);
+      background: rgba(28, 25, 23, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #fff;
-      font-size: 28px;
+      font-size: var(--fs-l);
       line-height: 1;
       display: flex;
       align-items: center;
@@ -464,7 +489,7 @@ html_template = """<!DOCTYPE html>
       z-index: 20;
     }
     .lightbox-nav:hover {
-      background: rgba(36, 36, 48, 0.95);
+      background: rgba(41, 37, 36, 0.95);
       border-color: rgba(255, 255, 255, 0.32);
       color: var(--accent-bright);
       transform: translateY(-50%) scale(1.05);
@@ -482,7 +507,7 @@ html_template = """<!DOCTYPE html>
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(12, 12, 16, 0.85);
+      background: rgba(20, 18, 16, 0.85);
       backdrop-filter: blur(14px);
       border: 1px solid var(--border-subtle);
       border-radius: 999px;
@@ -491,7 +516,7 @@ html_template = """<!DOCTYPE html>
       align-items: center;
       gap: 16px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: var(--fs-s);
       color: var(--text-muted);
       user-select: none;
       z-index: 20;
@@ -514,7 +539,6 @@ html_template = """<!DOCTYPE html>
       .lightbox-nav {
         width: 42px;
         height: 42px;
-        font-size: 22px;
       }
       .lightbox-prev { left: 12px; }
       .lightbox-next { right: 12px; }
@@ -523,7 +547,6 @@ html_template = """<!DOCTYPE html>
         bottom: 16px;
         padding: 5px 16px;
         gap: 10px;
-        font-size: 11.5px;
       }
     }
 
@@ -545,7 +568,7 @@ html_template = """<!DOCTYPE html>
     .methodology-content {
       max-width: 840px;
       margin: 0 auto;
-      background: #0f0f14;
+      background: #141210;
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 36px 32px;
@@ -558,7 +581,7 @@ html_template = """<!DOCTYPE html>
       position: absolute;
       top: 20px;
       right: 24px;
-      font-size: 26px;
+      font-size: var(--fs-l);
       color: var(--text-muted);
       background: transparent;
       border: 0;
@@ -567,8 +590,8 @@ html_template = """<!DOCTYPE html>
     .methodology-close:hover { color: #fff; }
 
     .methodology-tag {
-      font-family: var(--font-mono);
-      font-size: 12px;
+      font-family: var(--font-sans);
+      font-size: var(--fs-s);
       color: var(--accent-bright);
       letter-spacing: 0.02em;
       margin-bottom: 8px;
@@ -576,7 +599,7 @@ html_template = """<!DOCTYPE html>
 
     .methodology-title {
       font-family: var(--font-serif);
-      font-size: 1.8rem;
+      font-size: var(--fs-l);
       font-weight: 600;
       color: #fff;
       margin-bottom: 12px;
@@ -584,7 +607,7 @@ html_template = """<!DOCTYPE html>
 
     .methodology-intro {
       color: #b5ada2;
-      font-size: 0.95rem;
+      font-size: var(--fs-m);
       line-height: 1.7;
       margin-bottom: 24px;
       border-bottom: 1px solid var(--border-subtle);
@@ -598,7 +621,7 @@ html_template = """<!DOCTYPE html>
     }
 
     .rule-card {
-      background: #14141a;
+      background: #1c1917;
       border-radius: 6px;
       border: 1px solid var(--border-subtle);
       padding: 20px;
@@ -612,8 +635,8 @@ html_template = """<!DOCTYPE html>
     }
 
     .rule-idx {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-family: var(--font-sans);
+      font-size: var(--fs-s);
       padding: 2px 7px;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.06);
@@ -622,13 +645,13 @@ html_template = """<!DOCTYPE html>
     }
 
     .rule-title {
-      font-size: 1.05rem;
+      font-size: var(--fs-m);
       font-weight: 600;
       color: #fff;
     }
 
     .rule-body {
-      font-size: 0.9rem;
+      font-size: var(--fs-m);
       color: #a8a195;
       line-height: 1.65;
     }
@@ -639,7 +662,6 @@ html_template = """<!DOCTYPE html>
       padding: 2px 6px;
       border-radius: 4px;
       color: var(--accent-bright);
-      font-size: 0.88em;
     }
 
     @keyframes fadeIn {
@@ -656,11 +678,11 @@ html_template = """<!DOCTYPE html>
       <div class="brand-logo">
         <span>PHOTO-REAL VIRTUALITY</span>
       </div>
-      <span class="brand-tag" id="currentTag">Elden Ring · 25 Plates</span>
+      <span class="brand-tag" id="currentTag">艾尔登法环 共 25 幅</span>
     </div>
 
     <!-- GAME UNIVERSE SWITCHER -->
-    <nav class="game-selector" aria-label="Game Universe Selector">
+    <nav class="game-selector" aria-label="切换游戏">
       <button class="game-tab active" data-game="eldenring" onclick="switchGame('eldenring')">
         <span>艾尔登法环</span>
         <span class="tab-count">25</span>
@@ -677,7 +699,7 @@ html_template = """<!DOCTYPE html>
 
     <div class="nav-actions">
       <button class="btn-methodology" onclick="openMethodology()">
-        <span>摄影法典 (Methodology)</span>
+        <span>作图方法</span>
       </button>
       <a class="nav-github" href="https://github.com/holynova/elden-ring-liveaction" target="_blank" rel="noopener">
         <span>GitHub ↗</span>
@@ -685,15 +707,17 @@ html_template = """<!DOCTYPE html>
     </div>
   </header>
 
-  <!-- PROTOTYPE STAGE -->
+  <!-- STAGE -->
   <main id="stage"></main>
 
-  <!-- LIGHTBOX MODAL (Interactive Plate Viewer with Left/Right Navigation) -->
+  <footer class="site-footer">本站图片均为 AI 生成的摄影风格作品，镜头与相机参数用于风格描述，并非真实拍摄记录；属于非官方二次创作。</footer>
+
+  <!-- LIGHTBOX MODAL (Interactive Image Viewer with Left/Right Navigation) -->
   <div class="lightbox-modal" id="lightbox" onclick="handleLightboxBackdrop(event)">
-    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close details">&times;</button>
-    <button class="lightbox-nav lightbox-prev" onclick="prevLightboxImage(event)" aria-label="Previous plate">‹</button>
+    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="关闭">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="prevLightboxImage(event)" aria-label="上一幅">‹</button>
     <div id="lightboxMedia"></div>
-    <button class="lightbox-nav lightbox-next" onclick="nextLightboxImage(event)" aria-label="Next plate">›</button>
+    <button class="lightbox-nav lightbox-next" onclick="nextLightboxImage(event)" aria-label="下一幅">›</button>
     <div class="lightbox-hud" id="lightboxHud"></div>
   </div>
 
@@ -701,8 +725,8 @@ html_template = """<!DOCTYPE html>
   <div class="methodology-modal" id="methodologyModal" onclick="handleMethodologyClick(event)">
     <div class="methodology-content">
       <button class="methodology-close" onclick="closeMethodology()">&times;</button>
-      <div class="methodology-tag">Visual Methodology & Prompt Engineering</div>
-      <h2 class="methodology-title">AI 单反纯光学实拍与“活人呼吸感”作图方法论</h2>
+      <div class="methodology-tag">作图方法与提示词</div>
+      <h2 class="methodology-title">AI 摄影风格作图方法：怎样让 AI 图有真实照片感</h2>
       <p class="methodology-intro">
         从传统 AI 生图常见的“虚浮 3D 渲染、游戏 CG 引擎假面、磨皮塑料娃娃感”，蜕变到具有“真实物理快门抓拍与鲜活生命力”的真实世界肖像纪实。以下为经过三大经典游戏 67 幅作品全面验证的五大黄金法则。
       </p>
@@ -710,8 +734,8 @@ html_template = """<!DOCTYPE html>
       <div class="methodology-grid">
         <div class="rule-card">
           <div class="rule-header">
-            <span class="rule-idx">RULE 01</span>
-            <h3 class="rule-title">光学硬件与物理焦段深度锚定 (Hardware Anchoring)</h3>
+            <span class="rule-idx">法则 01</span>
+            <h3 class="rule-title">光学硬件与物理焦段深度锚定</h3>
           </div>
           <p class="rule-body">
             坚决抛弃 <code>8K</code>、<code>masterpiece</code>、<code>epic cinematic</code> 等虚浮词。明确声明具体相机与镜头型号：<code>佳能 EOS R5 搭配 85mm f/1.4 定焦镜头</code> 或 <code>哈苏中画幅 80mm f/2.2</code>，直接激活真实光学镜头的大光圈景深、焦外柔和散景与物理边缘色散。
@@ -720,8 +744,8 @@ html_template = """<!DOCTYPE html>
 
         <div class="rule-card">
           <div class="rule-header">
-            <span class="rule-idx">RULE 02</span>
-            <h3 class="rule-title">生物学生理微观细节与“活人呼吸感” (Biological Reality)</h3>
+            <span class="rule-idx">法则 02</span>
+            <h3 class="rule-title">生物学生理微观细节与“活人呼吸感”</h3>
           </div>
           <p class="rule-body">
             显式注入人类皮肤的天然生理特征：<code>完全未精修的自然皮肤质感</code>、<code>肉眼可见的细密毛孔与微小皮脂光泽</code>、<code>天然唇纹与微小脱皮</code>、<code>眼角战痕与疲惫眼神光</code>。必须加入 <code>被狂风吹乱贴在面颊的凌乱无序碎发</code>，彻底打破完美发胶假发带来的假人感。
@@ -730,8 +754,8 @@ html_template = """<!DOCTYPE html>
 
         <div class="rule-card">
           <div class="rule-header">
-            <span class="rule-idx">RULE 03</span>
-            <h3 class="rule-title">实物道具的冷锻工艺与物理岁月磨损 (Weathering & Props)</h3>
+            <span class="rule-idx">法则 03</span>
+            <h3 class="rule-title">实物道具的冷锻工艺与物理岁月磨损</h3>
           </div>
           <p class="rule-body">
             彻底否定 3D 模型表面平整无暇的平滑材质。写明道具的制作工艺与物理损耗：金属铠甲声明 <code>手工冷锻敲打留下的微小凹坑</code>、<code>做旧氧化暗痕与工业划痕</code>；义肢声明 <code>机械铰链与润滑油渍</code>；服饰强调 <code>粗纺亚麻</code>、<code>未处理毛边的粗剪羊毛</code> 与 <code>真皮自然折痕与重力垂坠褶皱</code>。
@@ -740,8 +764,8 @@ html_template = """<!DOCTYPE html>
 
         <div class="rule-card">
           <div class="rule-header">
-            <span class="rule-idx">RULE 04</span>
-            <h3 class="rule-title">环境微气候与动态物理粒子系统 (Atmospheric Physics)</h3>
+            <span class="rule-idx">法则 04</span>
+            <h3 class="rule-title">环境微气候与动态物理粒子系统</h3>
           </div>
           <p class="rule-body">
             让人体与所处微环境产生物理层面的呼吸与对流：深秋清晨 <code>口鼻与战马鼻孔喷出的真实白色热雾</code>；泥泞古道 <code>飞溅的真实雨水泥浆</code>；夜之城小巷 <code>拉面摊翻滚的热腾腾白色水汽与镜头表面微弱水雾光斑</code>；恶土沙漠 <code>夕阳低角度硬光下的飞扬沙尘颗粒</code>。
@@ -750,8 +774,8 @@ html_template = """<!DOCTYPE html>
 
         <div class="rule-card">
           <div class="rule-header">
-            <span class="rule-idx">RULE 05</span>
-            <h3 class="rule-title">绝对否定关键词的坚决免疫阻断 (Negative Immunization)</h3>
+            <span class="rule-idx">法则 05</span>
+            <h3 class="rule-title">绝对否定关键词的坚决免疫阻断</h3>
           </div>
           <p class="rule-body">
             在提示词末尾部署绝对负面防火墙：<code>“绝对没有任何CG、3D建模渲染、二次元动画、网游磨皮假面或数字绘画感，完全是一张真实生活中的人物快门实拍照片。”</code> 强行迫使模型扩散路径远离游戏引擎与插画渲染树分支。
@@ -780,22 +804,23 @@ html_template = """<!DOCTYPE html>
           <header class="hero">
             <h1 class="hero-title">${g.heroTitle}</h1>
             <p class="hero-sub">${g.heroSub}</p>
+            <p class="hero-hint">点图片放大查看，方向键翻页，Esc 关闭；按 G 切换游戏</p>
             <div class="hero-divider"></div>
           </header>
 
           <div class="exhibit-grid">
             ${g.items.map((item, idx) => `
               <article class="exhibit-item">
-                <div class="exhibit-media" onclick="openLightbox(${idx})">
+                <div class="exhibit-media" tabindex="0" role="button" aria-label="放大查看 ${item.name}" onclick="openLightbox(${idx})">
                   <img src="${item.thumb}" data-full="${item.src}" alt="${item.name}" loading="${idx < 2 ? 'eager' : 'lazy'}" decoding="async" ${idx < 2 ? 'fetchpriority="high"' : ''}>
                   <span class="exhibit-plate">${item.lens}</span>
                 </div>
                 <div class="exhibit-info">
-                  <span class="exhibit-num">Plate ${String(idx + 1).padStart(2, '0')}</span>
+                  <span class="exhibit-num">第 ${idx + 1} 幅</span>
                   <h2 class="exhibit-title">${item.name}</h2>
                   <div class="exhibit-meta-line">
                     <span>${item.en}</span>
-                    <span>${item.shutter}</span>
+                    <span class="meta-shutter">${item.shutter}</span>
                   </div>
                   <p class="exhibit-desc">${item.desc}</p>
                   <blockquote class="exhibit-quote">${item.quote}</blockquote>
@@ -825,9 +850,9 @@ html_template = """<!DOCTYPE html>
       // 2. Render HUD info
       if (hud) {
         hud.innerHTML = `
-          <span class="lightbox-counter">Plate ${String(idx + 1).padStart(2, '0')} / ${g.items.length}</span>
+          <span class="lightbox-counter">第 ${idx + 1} 幅 / 共 ${g.items.length} 幅</span>
           <span class="lightbox-name">${item.name}</span>
-          <span class="lightbox-meta">${item.lens} · ${item.shutter}</span>
+          <span class="lightbox-meta">${item.lens}，${item.shutter}</span>
         `;
       }
 
@@ -930,7 +955,7 @@ html_template = """<!DOCTYPE html>
       stage.innerHTML = renderEditorial();
     }
 
-    // Keyboard bindings (Left/Right to flip plates, G for Game switch, Escape to close)
+    // Keyboard bindings (Left/Right to flip images, G for Game switch, Escape to close)
     document.addEventListener('keydown', (e) => {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -946,6 +971,12 @@ html_template = """<!DOCTYPE html>
         } else if (e.key === 'Escape') {
           closeLightbox(e);
         }
+        return;
+      }
+
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.exhibit-media')) {
+        e.preventDefault();
+        e.target.click();
         return;
       }
 
@@ -992,6 +1023,7 @@ html_template = """<!DOCTYPE html>
 
     mount();
   </script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="e01c9f78-4607-4e60-b01c-77c8190b12b4"></script>
 </body>
 </html>
 """
