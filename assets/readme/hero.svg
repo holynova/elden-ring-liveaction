@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="360" viewBox="0 0 1200 360"
+     role="img" aria-labelledby="title desc">
+  <title id="title">游戏写实影像 PHOTO-REAL VIRTUALITY — 艾尔登法环、赛博朋克 2077 与塞尔达的摄影风格 AI 画册</title>
+  <desc id="desc">暖黑底胶片画册风标题：游戏写实影像；右侧是三条 35mm 胶片，分别画着黄金树、霓虹夜之城与海拉鲁原野，代表三个游戏世界。</desc>
+
+  <rect width="1200" height="360" rx="26" fill="#171310"/>
+
+  <g id="title-block" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <text x="56" y="62" font-size="19" letter-spacing="3" fill="#b8a88a">AI 摄影风格画册 · PHOTOGRAPHY-STYLE AI GALLERY</text>
+    <text x="56" y="128" font-size="62" font-weight="700" fill="#e8c97a">游戏写实影像</text>
+    <text x="56" y="168" font-size="23" fill="#efe8da">PHOTO-REAL VIRTUALITY — 游戏角色与场景的写实转译</text>
+    <text x="56" y="204" font-size="19" fill="#b8a88a">艾尔登法环、赛博朋克 2077、塞尔达传说，三部作品共 67 幅。</text>
+    <g id="chips" font-size="18" fill="#efe8da" text-anchor="middle">
+      <g><rect x="56" y="238" width="126" height="36" rx="18" fill="#2a211a" stroke="#4a3a28" stroke-width="1.5"/><text x="119" y="262">67 幅作品</text></g>
+      <g><rect x="194" y="238" width="150" height="36" rx="18" fill="#2a211a" stroke="#4a3a28" stroke-width="1.5"/><text x="269" y="262">3 个游戏世界</text></g>
+      <g><rect x="356" y="238" width="150" height="36" rx="18" fill="#2a211a" stroke="#4a3a28" stroke-width="1.5"/><text x="431" y="262">v1 / v2 对照</text></g>
+      <g><rect x="518" y="238" width="126" height="36" rx="18" fill="#2a211a" stroke="#4a3a28" stroke-width="1.5"/><text x="581" y="262">键盘浏览</text></g>
+    </g>
+  </g>
+
+  <g id="filmstrips" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <!-- frame 1: Elden Ring golden tree -->
+    <g id="frame-er">
+      <rect x="756" y="48" width="124" height="212" rx="8" fill="#0d0b09" stroke="#4a3a28" stroke-width="1.5"/>
+      <g fill="#efe8da" opacity="0.85">
+        <rect x="764" y="60" width="8" height="6" rx="1"/><rect x="764" y="84" width="8" height="6" rx="1"/><rect x="764" y="108" width="8" height="6" rx="1"/><rect x="764" y="132" width="8" height="6" rx="1"/><rect x="764" y="156" width="8" height="6" rx="1"/><rect x="764" y="180" width="8" height="6" rx="1"/><rect x="764" y="204" width="8" height="6" rx="1"/><rect x="764" y="228" width="8" height="6" rx="1"/>
+        <rect x="864" y="60" width="8" height="6" rx="1"/><rect x="864" y="84" width="8" height="6" rx="1"/><rect x="864" y="108" width="8" height="6" rx="1"/><rect x="864" y="132" width="8" height="6" rx="1"/><rect x="864" y="156" width="8" height="6" rx="1"/><rect x="864" y="180" width="8" height="6" rx="1"/><rect x="864" y="204" width="8" height="6" rx="1"/><rect x="864" y="228" width="8" height="6" rx="1"/>
+      </g>
+      <g>
+        <rect x="780" y="60" width="76" height="188" fill="#1d2b26"/>
+        <circle cx="818" cy="112" r="26" fill="#d4a94e"/>
+        <circle cx="802" cy="126" r="16" fill="#e8c97a"/>
+        <circle cx="834" cy="126" r="16" fill="#e8c97a"/>
+        <rect x="814" y="130" width="8" height="66" fill="#8a6a2f"/>
+        <rect x="780" y="196" width="76" height="52" fill="#141f1a"/>
+        <rect x="780" y="196" width="76" height="4" fill="#d4a94e" opacity="0.6"/>
+      </g>
+      <text x="818" y="290" font-size="18" fill="#efe8da" text-anchor="middle">艾尔登法环</text>
+      <text x="818" y="316" font-size="18" fill="#b8a88a" text-anchor="middle">25 幅</text>
+    </g>
+    <!-- frame 2: Cyberpunk neon city -->
+    <g id="frame-cp">
+      <rect x="896" y="48" width="124" height="212" rx="8" fill="#0d0b09" stroke="#4a3a28" stroke-width="1.5"/>
+      <g fill="#efe8da" opacity="0.85">
+        <rect x="904" y="60" width="8" height="6" rx="1"/><rect x="904" y="84" width="8" height="6" rx="1"/><rect x="904" y="108" width="8" height="6" rx="1"/><rect x="904" y="132" width="8" height="6" rx="1"/><rect x="904" y="156" width="8" height="6" rx="1"/><rect x="904" y="180" width="8" height="6" rx="1"/><rect x="904" y="204" width="8" height="6" rx="1"/><rect x="904" y="228" width="8" height="6" rx="1"/>
+        <rect x="1004" y="60" width="8" height="6" rx="1"/><rect x="1004" y="84" width="8" height="6" rx="1"/><rect x="1004" y="108" width="8" height="6" rx="1"/><rect x="1004" y="132" width="8" height="6" rx="1"/><rect x="1004" y="156" width="8" height="6" rx="1"/><rect x="1004" y="180" width="8" height="6" rx="1"/><rect x="1004" y="204" width="8" height="6" rx="1"/><rect x="1004" y="228" width="8" height="6" rx="1"/>
+      </g>
+      <g>
+        <rect x="920" y="60" width="76" height="188" fill="#160f24"/>
+        <rect x="924" y="150" width="14" height="98" fill="#2a1a4a"/>
+        <rect x="942" y="120" width="14" height="128" fill="#3a2060"/>
+        <rect x="960" y="100" width="14" height="148" fill="#2a1a4a"/>
+        <rect x="978" y="140" width="14" height="108" fill="#3a2060"/>
+        <rect x="924" y="150" width="14" height="3" fill="#ff2d78"/>
+        <rect x="942" y="120" width="14" height="3" fill="#22d3ee"/>
+        <rect x="960" y="100" width="14" height="3" fill="#ff2d78"/>
+        <rect x="978" y="140" width="14" height="3" fill="#22d3ee"/>
+        <circle cx="980" cy="82" r="10" fill="#f5d76e"/>
+        <rect x="920" y="236" width="76" height="12" fill="#0a0714"/>
+      </g>
+      <text x="958" y="290" font-size="18" fill="#efe8da" text-anchor="middle">赛博朋克 2077</text>
+      <text x="958" y="316" font-size="18" fill="#b8a88a" text-anchor="middle">21 幅</text>
+    </g>
+    <!-- frame 3: Zelda hyrule -->
+    <g id="frame-zelda">
+      <rect x="1036" y="48" width="124" height="212" rx="8" fill="#0d0b09" stroke="#4a3a28" stroke-width="1.5"/>
+      <g fill="#efe8da" opacity="0.85">
+        <rect x="1044" y="60" width="8" height="6" rx="1"/><rect x="1044" y="84" width="8" height="6" rx="1"/><rect x="1044" y="108" width="8" height="6" rx="1"/><rect x="1044" y="132" width="8" height="6" rx="1"/><rect x="1044" y="156" width="8" height="6" rx="1"/><rect x="1044" y="180" width="8" height="6" rx="1"/><rect x="1044" y="204" width="8" height="6" rx="1"/><rect x="1044" y="228" width="8" height="6" rx="1"/>
+        <rect x="1144" y="60" width="8" height="6" rx="1"/><rect x="1144" y="84" width="8" height="6" rx="1"/><rect x="1144" y="108" width="8" height="6" rx="1"/><rect x="1144" y="132" width="8" height="6" rx="1"/><rect x="1144" y="156" width="8" height="6" rx="1"/><rect x="1144" y="180" width="8" height="6" rx="1"/><rect x="1144" y="204" width="8" height="6" rx="1"/><rect x="1144" y="228" width="8" height="6" rx="1"/>
+      </g>
+      <g>
+        <rect x="1060" y="60" width="76" height="188" fill="#1c2b1a"/>
+        <circle cx="1118" cy="88" r="12" fill="#f5d76e"/>
+        <path d="M1060 190 Q1080 150 1098 186 Q1116 150 1136 190 L1136 248 L1060 248 Z" fill="#2e5d2a"/>
+        <path d="M1060 210 Q1086 178 1112 208 Q1124 196 1136 210 L1136 248 L1060 248 Z" fill="#3f7a34"/>
+        <rect x="1094" y="170" width="4" height="18" fill="#6b4a2a"/>
+        <circle cx="1096" cy="166" r="9" fill="#2e5d2a"/>
+      </g>
+      <text x="1098" y="290" font-size="18" fill="#efe8da" text-anchor="middle">塞尔达传说</text>
+      <text x="1098" y="316" font-size="18" fill="#b8a88a" text-anchor="middle">21 幅</text>
+    </g>
+  </g>
+</svg>
